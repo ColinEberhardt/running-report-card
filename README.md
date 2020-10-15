@@ -1,12 +1,24 @@
-## development
+# Strava Report Card
 
-## deployment
+Creates a narrative report card from Strava user's running data
+
+## Development
+
+To run locally:
 
 ~~~
-serverless deploy --stage prod
+npm start
 ~~~
 
-## features to add
+To deploy:
+
+~~~
+npm run deploy
+~~~
+
+## TODO 
+
+### features to add
 - [x] run streak
 - [x] active days
 - [ ] geoclustering to provide location commemntary
@@ -14,12 +26,10 @@ serverless deploy --stage prod
 - [x] total distance comparison
 - [ ] fastest and slowest runs?
 
-## infra
+### infrastructure
 - [ ] make index.html default page 
 - [ ] start using SASS?
-- [ ] 
 
-
-## Design ideas ...
+### Design ideas ...
 
  - https://cf.veloviewer.com/blog/Infographic.png
