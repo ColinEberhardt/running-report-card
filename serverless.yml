@@ -1,0 +1,47 @@
+service: strava-report-card
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: eu-west-2
+  timeout: 120
+  websocketsApiName: strava-report-card-ws
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - s3:PutObjectAcl
+      Resource: "arn:aws:s3:::strava-report-card/*"
+
+functions:
+  connectHandler:
+    handler: src/sockets.connectHandler
+    events:
+      - websocket:
+          route: $connect
+  disconnectHandler:
+    handler: src/sockets.disconnectHandler
+    events:
+      - websocket:
+          route: $disconnect
+  msgHandler:
+    handler: src/sockets.msgHandler
+    environment: ${file(serverless.env.yml)}
+    events:
+      - websocket:
+          route: $default
+
+custom:
+  assets:
+    verbose: true
+    targets:
+      - bucket: strava-report-card
+        acl: public-read
+        files:
+        - source: static/
+          globs: '{index,generate,style,wiggle}.*'
+
+plugins:
+  - serverless-offline
+  - serverless-s3-deploy

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Strava Report Card</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="row">
+        <h1>Strava Report Card</h1>
+        <p class="col-10 col-lg-8">
+          Welcome to the Stava Report Card - to obtain your own personal report,
+          click the link below to authorize with Strava
+        </p>
+        <div class="sep"></div>
+        <a class="btn btn-primary btn-lg" id="submit" role="button"
+          >Create my report!</a
+        >
+        <div class="sep"></div>
+        <p class="col-10 col-lg-8">
+          The Strava Report Card uses your Strava run data to create a
+          personalised report of your running habits. Why not take a look at an
+          <a href="8725202.html">example report</a>?. Concepts and code by
+          <a href="https://twitter.com/ColinEberhardt">Colin Eberhardt</a>.
+        </p>
+      </header>
+    </div>
+    <script type="text/javascript">
+      const isDev = ["localhost", "127.0.0.1"].includes(location.hostname);
+      const redirectUrl = isDev
+        ? "http://127.0.0.1:8080"
+        : "https://strava-report-card.s3.eu-west-2.amazonaws.com";
+
+      const params = {
+        client_id: 15760,
+        redirect_uri: redirectUrl + "/generate.html",
+        response_type: "code",
+        scope: "activity:read,profile:read_all"
+      };
+
+      const query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+        .join("&");
+
+      const url = "https://www.strava.com/oauth/authorize?" + query;
+      document.getElementById("submit").setAttribute("href", url);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Strava Report Card</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="row">
+        <h2>Strava Report Card</h2>
+        <h2>Generation in Progress</h2>
+        <div class="sep"></div>
+        <p id="status">Waiting ...</p>
+        <div class="sep"></div>
+      </header>
+    </div>
+    <script>
+      const isDev = ["localhost", "127.0.0.1"].includes(location.hostname);
+
+      const generalUrl = isDev
+        ? "ws://localhost:3001"
+        : "wss://fnnmzecayl.execute-api.eu-west-2.amazonaws.com/dev";
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const authCode = urlParams.get("code");
+
+      const ws = new WebSocket(generalUrl);
+
+      ws.onopen = event => {
+        ws.send(JSON.stringify({ authCode: authCode }));
+      };
+
+      ws.onmessage = event => {
+        const data = JSON.parse(event.data);
+        if (data.status) {
+          document.getElementById("status").innerText = data.status;
+        }
+        if (data.reportUrl) {
+          window.location.replace(data.reportUrl);
+        }
+        if (data.message && data.message === "Internal server error") {
+          document.getElementById("status").innerText =
+            "An error occurred when generating your report, please try again later.";
+        }
+      };
+    </script>
+  </body>
+</html>

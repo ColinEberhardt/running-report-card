@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Strava Report Card - {{ Colin }} {{ Eberhardt }}</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+
+  <body>
+    <svg style="width: 0; height: 0">
+      <g id="connections">
+        <g>
+          <path
+            d="M88.7,41.2c-4.2,0-7.7,3-8.6,6.9H70c-0.4-4.1-2-7.9-4.5-10.9l7.1-7.1c1.4,0.9,3.1,1.4,4.7,1.4c2.3,0,4.5-0.9,6.2-2.6v0     c1.7-1.7,2.6-3.9,2.6-6.2s-0.9-4.6-2.6-6.2c-3.4-3.4-9-3.4-12.4,0c-1.7,1.7-2.6,3.9-2.6,6.2c0,1.7,0.5,3.3,1.4,4.7l-7.1,7.1     c-3-2.5-6.8-4.1-10.9-4.5V19.9c3.9-0.9,6.9-4.4,6.9-8.6c0-4.9-3.9-8.8-8.8-8.8c-4.9,0-8.8,3.9-8.8,8.8c0,4.2,3,7.7,6.9,8.6V30     c-4.1,0.4-7.9,2-10.9,4.5l-7.2-7.2c2.2-3.4,1.8-8-1.2-11l0,0c-3.4-3.4-9-3.4-12.4,0c-3.4,3.4-3.4,9,0,12.4c1.7,1.7,4,2.6,6.2,2.6     c1.7,0,3.3-0.5,4.7-1.4l7.1,7.1c-2.5,3-4.2,6.8-4.5,10.9H19.9c-0.9-3.9-4.4-6.9-8.6-6.9c-4.9,0-8.8,3.9-8.8,8.8s3.9,8.8,8.8,8.8     c4.2,0,7.7-3,8.6-6.9H30c0.4,4.1,2,7.9,4.5,10.9l-7.1,7.1c-1.4-0.9-3-1.4-4.7-1.4c-2.4,0-4.6,0.9-6.2,2.6h0     c-3.4,3.4-3.4,9,0,12.4c1.7,1.7,3.9,2.6,6.2,2.6s4.6-0.9,6.2-2.6c3-3,3.4-7.6,1.2-11l7.1-7.1c3,2.5,6.8,4.2,10.9,4.6v10     c-3.9,0.9-6.9,4.4-6.9,8.6c0,4.9,3.9,8.8,8.8,8.8c4.9,0,8.8-3.9,8.8-8.8c0-4.2-3-7.7-6.9-8.6v-10c4.1-0.4,7.9-2,11-4.6l7.1,7.1     c-0.9,1.4-1.4,3-1.4,4.7c0,2.4,0.9,4.6,2.6,6.2c1.7,1.7,3.9,2.6,6.2,2.6c2.4,0,4.6-0.9,6.2-2.6c1.7-1.7,2.6-3.9,2.6-6.2     c0-2.4-0.9-4.6-2.6-6.2c-1.7-1.7-3.9-2.6-6.2-2.6c-1.7,0-3.3,0.5-4.7,1.4l-7.1-7.1c2.5-3,4.1-6.8,4.5-10.9h10.1     c0.9,3.9,4.4,6.9,8.6,6.9c4.9,0,8.8-3.9,8.8-8.8S93.6,41.2,88.7,41.2z M11.3,55c-2.8,0-5-2.3-5-5s2.3-5,5-5s5,2.3,5,5     S14.1,55,11.3,55z M73.8,19.1c1-1,2.3-1.5,3.6-1.5s2.6,0.5,3.6,1.5c2,2,2,5.1,0,7.1c-2,2-5.1,2-7.1,0     C71.9,24.2,71.9,21,73.8,19.1z M45,11.3c0-2.8,2.3-5,5-5c2.8,0,5,2.3,5,5s-2.3,5-5,5C47.2,16.3,45,14.1,45,11.3z M19.1,26.2     c-2-2-2-5.1,0-7.1c1-1,2.3-1.5,3.6-1.5c1.3,0,2.6,0.5,3.6,1.5c2,2,2,5.1,0,7.1C24.2,28.1,21,28.1,19.1,26.2z M26.2,80.9     c-2,2-5.1,2-7.1,0c-2-2-2-5.1,0-7.1h0c2-2,5.1-2,7.1,0C28.1,75.8,28.1,79,26.2,80.9z M55,88.7c0,2.8-2.3,5-5,5c-2.8,0-5-2.3-5-5     c0-2.8,2.3-5,5-5C52.8,83.7,55,85.9,55,88.7z M77.4,72.3c1.3,0,2.6,0.5,3.6,1.5c0.9,0.9,1.5,2.2,1.5,3.6c0,1.3-0.5,2.6-1.5,3.6     c-0.9,0.9-2.2,1.5-3.6,1.5s-2.6-0.5-3.6-1.5h0c-2-2-2-5.1,0-7.1C74.8,72.9,76,72.3,77.4,72.3z M61.8,61.5v-0.9     c0-2.8-1.7-5.4-4.3-6.6l-2.2-1c-1.4,1.3-3.3,2.1-5.3,2.1c-2,0-3.9-0.8-5.3-2.1l-2.2,1c-2.6,1.2-4.3,3.8-4.3,6.6v0.9     c-2.9-3-4.7-7-4.7-11.5c0-9.1,7.4-16.4,16.4-16.4c9.1,0,16.4,7.4,16.4,16.4C66.4,54.5,64.7,58.5,61.8,61.5z M88.7,55     c-2.8,0-5-2.3-5-5s2.3-5,5-5c2.8,0,5,2.3,5,5S91.5,55,88.7,55z"
+          />
+          <ellipse cx="50" cy="45.7" rx="5.9" ry="6.9" />
+        </g>
+      </g>
+      <g transform="translate(0,-952.36218)" id="distance">
+        <path
+          d="m 83.9689,952.36216 c 8.751,0 16.0312,6.87157 16.0312,16 0,2.22877 -0.4975,5.12263 -1.25,7.15625 -4.2905,9.2221 -8.6236,18.46279 -12.9375,27.68749 -0.3198,0.6852 -1.0563,1.1563 -1.8125,1.1563 -0.7562,0 -1.4927,-0.4711 -1.8125,-1.1563 -4.2602,-9.2483 -8.7161,-18.43513 -12.9375,-27.68749 -0.7463,-2.02803 -1.25,-4.92576 -1.25,-7.15625 0,-9.12266 7.2175,-16 15.9688,-16 z m 0,4 c -6.7142,0 -11.9688,4.93666 -11.9688,12 0,1.4789 0.5449,4.49654 1,5.75 3.6437,7.83674 7.3299,15.66984 11,23.50004 3.5832,-7.8693 7.293,-15.47873 11,-23.50004 0.456,-1.24911 1,-4.26779 1,-5.75 0,-7.05757 -5.3174,-12 -12.0312,-12 z m 0.031,5 c 3.8422,0 7,3.15765 7,7 0,3.84235 -3.1578,7 -7,7 -3.8423,0 -7,-3.1577 -7,-7 0,-3.8423 3.1577,-7 7,-7 z m 0,4 c -1.6805,0 -3,1.3195 -3,3 0,1.6805 1.3195,3 3,3 1.6804,0 3,-1.31955 3,-3 0,-1.68045 -1.3196,-3 -3,-3 z M 18.0311,994.3622 c 9.8779,0 17.9688,7.8494 17.9688,18 0,2.4687 -0.591,5.5693 -1.4062,7.75 -4.9035,10.3583 -9.8525,20.7338 -14.7813,31.0937 -0.3198,0.6852 -1.0563,1.1563 -1.8125,1.1563 -0.7562,0 -1.4927,-0.4711 -1.8125,-1.1563 -4.868398,-10.3872 -9.955798,-20.7003 -14.781298,-31.0937 -0.8215,-2.186 -1.406201,-5.283 -1.406201,-7.75 0,-10.1565 8.153501,-18 18.031199,-18 z m 0,4 c -7.796998,0 -14.031198,5.9472 -14.031198,14 0,1.7084 0.5977,4.8113 1.1562,6.3125 4.2583,9.0035 8.5591,18.0032 12.843798,27 4.1965,-9.0373 8.6833,-18.1483 12.8438,-27 0.5574,-1.5053 1.1564,-4.6076 1.1564,-6.3125 0,-8.0586 -6.1716,-14 -13.9688,-14 z m -0.031,5 c 4.9468,0 9,4.0531 9,9 0,4.9468 -4.0532,9 -9,9 -4.946898,0 -8.999998,-4.0532 -8.999998,-9 0,-4.9469 4.0531,-9 8.999998,-9 z m 62.125,1.9687 a 2.0002,2.0002 0 0 1 1.0625,3.625 l -54,40 a 2.0002,2.0002 0 1 1 -2.375,-3.2187 l 54,-40 a 2.0002,2.0002 0 0 1 1.3125,-0.4063 z m -62.125,2.0313 c -2.7851,0 -4.999998,2.2149 -4.999998,5 0,2.785 2.214898,5 4.999998,5 2.785,0 5,-2.2151 5,-5 0,-2.7851 -2.215,-5 -5,-5 z"
+          fill="#000000"
+          fill-opacity="1"
+          stroke="none"
+          marker="none"
+          visibility="visible"
+          display="inline"
+          overflow="visible"
+        />
+      </g>
+      <g id="runner">
+        <path
+          d="M93,38.5l-12.8-1.66-3.41-8.39a14.52,14.52,0,0,0-1-2A12.82,12.82,0,1,0,62.5,16.18a.81.81,0,0,1-.47-.1A100.32,100.32,0,0,0,45.36,9l-1.44-.47a7.17,7.17,0,0,0-7.26,1.73L24.38,22.36a7.34,7.34,0,0,0-.52,10,7.22,7.22,0,0,0,10.52.4l9-8.9,4.35,2.28L40.65,37l-.06.1a16,16,0,0,0-2.07,6.08L24.43,56.09,11.77,51.48A8.43,8.43,0,0,0,1.31,55.59a8.16,8.16,0,0,0-.19,6.68,8.26,8.26,0,0,0,4.81,4.62l17.57,6.4a8.2,8.2,0,0,0,2.84.5,8.16,8.16,0,0,0,5.38-2L46.44,61l6.84,8.7L45.22,87.25a8.42,8.42,0,0,0,2,9.95A8.25,8.25,0,0,0,50.76,99a8,8,0,0,0,1,.16,8.34,8.34,0,0,0,.89,0,8.24,8.24,0,0,0,7.49-4.81L70.35,72a8.22,8.22,0,0,0-.77-8.19L62.44,50.35l4.26-7.45,1.56,3.19a7.2,7.2,0,0,0,5.12,4.4c.23.05.46.09.67.12L91.3,52.85a7.07,7.07,0,0,0,5.53-1.55,7.17,7.17,0,0,0,2.65-5.06A7.43,7.43,0,0,0,93,38.5ZM28.66,67.82l-.2.16a3.18,3.18,0,0,1-2.87.73l-.38-.11L7.64,62.19a3.25,3.25,0,0,1-1.89-1.82,3.18,3.18,0,0,1,.08-2.64,3.43,3.43,0,0,1,4.24-1.56l14.08,5.13a2.5,2.5,0,0,0,2.54-.5L39,49.56a16,16,0,0,0,2.82,5.51l1.54,2Zm65-20.41a2.13,2.13,0,0,1-1.69.48l-17.3-2.25-.2,0a2.21,2.21,0,0,1-1.59-1.39,2.41,2.41,0,0,0-.1-.23l-3.68-7.53a2.5,2.5,0,0,0-4.42-.14L57.42,49.06a2.5,2.5,0,0,0,0,2.41l7.88,14.84a2.51,2.51,0,0,0,.23.36,3.16,3.16,0,0,1,.31,3.23L55.55,92.28a3.3,3.3,0,0,1-3.3,1.87l-.37-.06a3.31,3.31,0,0,1-1.41-.71,3.42,3.42,0,0,1-.71-4l8.7-19a2.5,2.5,0,0,0-.31-2.59L45.74,52a10.89,10.89,0,0,1-.87-12.26l8.57-13.13A2.5,2.5,0,0,0,52.51,23l-8.4-4.4a2.5,2.5,0,0,0-2.92.44L30.87,29.23a2.24,2.24,0,0,1-2.07.59,2.19,2.19,0,0,1-1.18-.71,2.34,2.34,0,0,1,.27-3.18L40.17,13.81a2.19,2.19,0,0,1,2.22-.53l1.44.47a95.25,95.25,0,0,1,15.83,6.74,5.77,5.77,0,0,0,7-1.16,3.85,3.85,0,0,0,.88-3.67,7.74,7.74,0,0,1,.14-4.53,7.9,7.9,0,0,1,8.24-5.24,7.8,7.8,0,0,1,6.74,9.49,7.79,7.79,0,0,1-8.32,6l-.9-.18a3.59,3.59,0,0,0-3.3,6,9.65,9.65,0,0,1,2,3.1l4,9.75a2.5,2.5,0,0,0,2,1.54l14.25,1.85a2.41,2.41,0,0,1,2.16,2.4A2.18,2.18,0,0,1,93.68,47.42Z"
+        />
+        <path d="M3,29.68h9.63a2.5,2.5,0,1,0,0-5H3a2.5,2.5,0,0,0,0,5Z" />
+        <path
+          d="M11.19,15.36h9.63a2.5,2.5,0,0,0,0-5H11.19a2.5,2.5,0,0,0,0,5Z"
+        />
+        <path
+          d="M8.69,41.49a2.5,2.5,0,0,0,2.5,2.5h9.63a2.5,2.5,0,0,0,0-5H11.19A2.5,2.5,0,0,0,8.69,41.49Z"
+        />
+      </g>
+      <g id="time">
+        <path
+          d="M256,77C157.3,77,77,157.3,77,256s80.3,179,179,179,179-80.3,179-179S354.7,77,256,77Zm9,339.744V394H247v22.744C165.375,412.224,99.776,346.625,95.256,265H118V247H95.256C99.776,165.375,165.375,99.776,247,95.256V118h18V95.256C346.625,99.776,412.224,165.375,416.744,247H394v18h22.744C412.224,346.625,346.625,412.224,265,416.744Z"
+        />
+        <path
+          d="M256,29.457A226.543,226.543,0,0,0,95.81,416.19,226.543,226.543,0,1,0,416.19,95.81,225.056,225.056,0,0,0,256,29.457Zm0,435.086C141.009,464.543,47.457,370.991,47.457,256S141.009,47.457,256,47.457,464.543,141.009,464.543,256,370.991,464.543,256,464.543Z"
+        />
+        <polygon
+          points="265 150 247 150 247 265 350 265 350 247 265 247 265 150"
+        />
+      </g>
+      <g id="mountain">
+        <path
+          d="M25.988,21.496c5.925,0,10.747-4.822,10.747-10.748S31.913,0,25.988,0c-5.927,0-10.749,4.822-10.749,10.748   S20.061,21.496,25.988,21.496z M25.988,3.786c3.838,0,6.961,3.123,6.961,6.962s-3.123,6.962-6.961,6.962   c-3.839,0-6.963-3.123-6.963-6.962S22.149,3.786,25.988,3.786z"
+        />
+        <path
+          d="M99.608,86.605L59.877,34.818c-0.357-0.467-0.913-0.74-1.501-0.74h-0.002c-0.59,0.001-1.144,0.275-1.503,0.743   l-27.26,35.67l-5.135-6.693c-0.359-0.468-0.913-0.741-1.502-0.741c-0.001,0-0.001,0-0.002,0c-0.589,0-1.144,0.275-1.502,0.743   L0.389,91.383c-0.635,0.832-0.476,2.019,0.354,2.655c0.344,0.261,0.748,0.388,1.148,0.388c0.57,0,1.133-0.255,1.506-0.743l8-10.467   l2.531,3.505c0.305,0.422,0.771,0.699,1.288,0.767c0.082,0.011,0.165,0.017,0.247,0.017c0.434,0,0.856-0.148,1.196-0.425   l6.012-4.899l5.62,4.862c0.396,0.344,0.921,0.51,1.438,0.451c0.521-0.055,0.997-0.324,1.313-0.743l3.106-4.124l8.486,11.059   c0.634,0.83,1.821,0.989,2.653,0.349c0.83-0.636,0.987-1.825,0.349-2.653L31.998,73.603l10.562-13.82l4.887,7.049   c0.325,0.47,0.845,0.767,1.414,0.81c0.048,0.004,0.096,0.006,0.142,0.006c0.52,0,1.019-0.214,1.377-0.595l7.377-7.822l5.881,7.188   c0.372,0.457,0.939,0.721,1.533,0.691c0.592-0.02,1.139-0.318,1.481-0.802l6.032-8.576l23.921,31.178   c0.634,0.83,1.821,0.991,2.653,0.349C100.089,88.622,100.246,87.433,99.608,86.605z M29.236,82.854l-5.29-4.578   c-0.696-0.606-1.724-0.618-2.435-0.037l-5.689,4.637l-2.024-2.804l9.178-12.009l8.781,11.444L29.236,82.854z M64.989,62.09   l-5.667-6.926c-0.344-0.42-0.854-0.673-1.398-0.691c-0.553-0.046-1.07,0.196-1.444,0.593l-7.251,7.689l-4.253-6.133l13.403-17.537   l11.89,15.497L64.989,62.09z"
+        />
+      </g>
+    </svg>
+
+    <div class="container">
+      <header class="row">
+        <img src="{{ profile_pic }}" />
+        <h1>{{ Colin }}<br />{{ Eberhardt }}</h1>
+        <div class="sep"></div>
+        <h2>Strava Report Card</h2>
+        <p class="col-8 col-lg-4">
+          {{ Colin }} is {{ a_high_mileage }} runner who you're most likely to
+          find hitting the roads on a {{ weekend }}.
+        </p>
+      </header>
+      <section class="row">
+        <div class="col-md-6">
+          <p>
+            We are creatures of habit, runners more so than most! You're most
+            likely to find {{ Colin }} pulling on {{ his }} trainers and hitting
+            the road (or trail) on a {{ weekend }}. {{ caps he }} tends to go
+            for long runs on a {{ monday }} and works out on a {{ tuesday }}.
+            Also, {{ Colin }} is {{{ a_nighttime_runner }}}.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <svg
+            id="timeOfDay"
+            data-time-of-day="{{ time_of_day }}"
+            viewBox="-100 -100 200 200"
+          >
+            <line x1="0" y1="-20" x2="0" y2="20" stroke="black" />
+            <text transform="translate(-10, 0)" style="font-size: 10px">
+              AM
+            </text>
+            <text transform="translate(10, 0)" style="font-size: 10px">PM</text>
+          </svg>
+        </div>
+      </section>
+      <section class="row">
+        <div class="col-md-6">
+          <ul>
+            <li>
+              <svg class="icon" viewBox="0 -10 100 125">
+                <use xlink:href="#distance"></use>
+              </svg>
+              <span>{{ one_hundred }} miles</span>
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 100 125">
+                <use xlink:href="#runner"></use>
+              </svg>
+              <span>{{ two_hundred }} runs</span>
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 512 640">
+                <use xlink:href="#time"></use>
+              </svg>
+              <span>{{ longest_streak }} day streak</span>
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 100 118">
+                <use xlink:href="#mountain"></use>
+              </svg>
+              <span>{{ three_thousand }} metres</span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <p>
+            In the last year {{ Colin }} has been on {{ two_hundred }} runs,
+            covering a total of {{ one_hundred }} miles over {{ fifty }} hours,
+            with a longest running streak of {{ longest_streak }} days. If {{ he
+            }} keeps clocking up this mileage {{ he }}'ll have run round the
+            world in {{ round_world_years }} years. We'd classify {{ Colin }} as
+            {{{ a_running_addict }}}. During these runs {{ he }} has climbed {{
+            three_thousand }} metres, that's the equivalent of {{
+            climbing_everest }}
+          </p>
+        </div>
+      </section>
+      <section class="row">
+        <div class="col-md-6">
+          <p>
+            Here's {{ Colin }}'s running schedule over the past year, coloured
+            by the type of run:
+          </p>
+        </div>
+        <div class="col-md-6 no-bottom-border"></div>
+      </section>
+      <section class="row">
+        <div class="col-md-12">
+          <svg
+            class="full-bleed"
+            id="calendar"
+            data-schedule="{{ annual_schedule }}"
+            viewBox="0 0 530 80"
+          ></svg>
+        </div>
+      </section>
+      <section class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <p>
+            Longer runs in <b style="color: #008037">dark green</b>, and
+            speedier sessions in <b style="color: #ff1616">red</b>, and all the
+            other miles plodding the streets in
+            <b style="color: #777">light gray</b>.
+          </p>
+        </div>
+      </section>
+      <section class="row">
+        <div class="col-md-6">
+          <p>
+            {{ Colin }}'s runs receive an average of {{ thirteen }} kudos from
+            {{ his }} friends and followers, {{ his }} stand-out run for the
+            year was
+            <a
+              href="https://www.strava.com/activities/{{ north_tyneside_ten_id }}"
+              >{{ north_tyneside_ten }}</a
+            >
+            which received {{ forty }} kudos.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <svg class="icon" viewBox="0 0 100 125" style="height: 200px">
+            <use xlink:href="#connections"></use>
+          </svg>
+        </div>
+      </section>
+      {{#if gallery.length}}
+      <section class="row">
+        <div class="col-md-6">
+          <p>
+            You'll find {{ Colin }} snapping the occasional picture
+            while on a run. Here are a few of the {{ photo_count}} photo's {{he}}'s
+            taken this year:
+          </p>
+        </div>
+        <div class="col-md-6 no-bottom-border"></div>
+      </section>
+      <section class="row">
+        <div class="col-md-12 gallery">
+          {{#each gallery}}
+          <div>
+            <img src="{{ this }}" />
+          </div>
+          {{/each}}
+        </div>
+      </section>
+      {{/if}}
+      <section class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <p>
+            If you had fun reading this, why not generate your own <a href="index.html">Strava Report Card</a>?
+          </p>
+        </div>
+      </section>
+      <footer class="row">Brought to you by Colin Eberhardt</footer>
+    </div>
+    <script type="text/javascript">
+      const calendarData = JSON.parse(
+        document.getElementById("calendar").getAttribute("data-schedule")
+      );
+      const cellSize = 10;
+
+      const transX = (d, i) =>
+        520 - Math.floor(i / 7) * cellSize + cellSize / 2;
+      const transY = (d, i) =>
+        new Date(d.day).getDay() * cellSize + cellSize / 2;
+
+      const maxDistance = Math.max.apply(
+        null,
+        calendarData.map(d => d.distance)
+      );
+
+      const size = d3
+        .scaleLinear()
+        .range([0, cellSize / 1.5])
+        .domain([0, maxDistance]);
+
+      d3.select("#calendar")
+        .selectAll("rect")
+        .data(calendarData)
+        .enter()
+        .append("circle")
+        .attr("r", d => size(d.distance))
+        .attr(
+          "transform",
+          (d, i) => `translate(${transX(d, i)}, ${transY(d, i)})`
+        )
+        .attr("fill", d => {
+          switch (d.type) {
+            case 3: // workout
+              return "#ff1616";
+            case 2: // long run
+              return "#008037";
+            case 1: // race
+              return "#DD7B7B";
+          }
+          return d.runs > 0 ? "#d9d9d9" : "transparent";
+        });
+
+      d3.select("#calendar")
+        .selectAll("text")
+        .data(["S", "M", "T", "W", "T", "F", "S"])
+        .enter()
+        .append("text")
+        .text(d => d)
+        .attr("style", "font-size: 8px")
+        .attr(
+          "transform",
+          (_, i) => `translate(0, ${i * cellSize + cellSize / 2})`
+        );
+
+      const data = JSON.parse(
+        document.getElementById("timeOfDay").getAttribute("data-time-of-day")
+      );
+
+      const SEGMENT_RADIUS = (Math.PI * 2) / 24;
+      const SEGMENT_OFFSET = Math.PI + SEGMENT_RADIUS / 2;
+
+      const arc = d3
+        .arc()
+        .innerRadius(25)
+        .outerRadius(d => 25 + d * 70 + 1)
+        .startAngle((_, i) => (i + 0.5) * SEGMENT_RADIUS + SEGMENT_OFFSET)
+        .endAngle((_, i) => (i + 1.5) * SEGMENT_RADIUS + SEGMENT_OFFSET);
+
+      d3.select("#timeOfDay")
+        .selectAll("path.time")
+        .data(data)
+        .enter()
+        .append("path")
+        .classed("time", true)
+        .attr("d", arc);
+
+      const arc2 = d3
+        .arc()
+        .innerRadius(d => (d % 3 === 0 ? 20 : 22))
+        .outerRadius(24)
+        .startAngle(d => d * SEGMENT_RADIUS - 0.03)
+        .endAngle(d => d * SEGMENT_RADIUS + 0.03);
+
+      d3.select("#timeOfDay")
+        .selectAll("path.indicator")
+        .data(d3.range(0, 24))
+        .enter()
+        .append("path")
+        .classed("indicator", true)
+        .attr("d", arc2);
+    </script>
+  </body>
+</html>
