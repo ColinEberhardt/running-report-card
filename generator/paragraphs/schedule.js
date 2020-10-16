@@ -31,7 +31,7 @@ module.exports = stravaData => {
       // create a year of days
       .map(days => now.minus({ days: days }))
       .map(day => {
-        // find the number of runs on that day
+        // find the runs on that day
         const runs = stravaData.runs.filter(d =>
           sameDay(day, DateTime.fromISO(d.start_date_local))
         );
@@ -39,6 +39,7 @@ module.exports = stravaData => {
           day,
           runs: runs.length,
           type: runs.length > 0 ? activityType(runs) : 0,
+          titles: runs.map(r => r.name),
           distance: runs.reduce((prev, curr) => prev + curr.distance, 0)
         };
       })

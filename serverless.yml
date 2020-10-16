@@ -40,7 +40,7 @@ custom:
         acl: public-read
         files:
         - source: static/
-          globs: '{index,generate,style,wiggle}.*'
+          globs: '{index,generate,style,wiggle,strava_connect,strava_logo}.*'
 
 plugins:
   - serverless-offline

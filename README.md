@@ -1,4 +1,4 @@
-# Strava Report Card
+# Running Report Card
 
 Creates a narrative report card from Strava user's running data
 
@@ -25,10 +25,15 @@ npm run deploy
 - [x] longest run
 - [x] total distance comparison
 - [ ] fastest and slowest runs?
+- [ ] add tooltips to the calendar view
 
 ### infrastructure
+- [x] conform to strava branding guidelines https://developers.strava.com/guidelines/
 - [ ] make index.html default page 
 - [ ] start using SASS?
+- [ ] stop using the bootstrap 'full' build
+- [ ] add a social card
+
 
 ### Design ideas ...
 

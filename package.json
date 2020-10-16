@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "serverless offline & live-server --no-browser static ",
-    "test": "node test/generate.js",
+    "test": "node test",
     "deploy": "serverless deploy && serverless s3deploy"
   },
   "dependencies": {
@@ -14,12 +14,14 @@
     "d3-format": "^1.3.2",
     "handlebars": "^4.7.6",
     "luxon": "^1.16.0",
+    "number-to-text": "^0.3.8",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "serverless-http": "^2.0.2"
   },
   "devDependencies": {
     "serverless-offline": "^5.3.3",
-    "serverless-s3-deploy": "^0.9.0"
+    "serverless-s3-deploy": "^0.9.0",
+    "worker-farm": "^1.7.0"
   }
 }

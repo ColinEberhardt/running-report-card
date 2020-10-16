@@ -24,14 +24,18 @@ a:hover {
 
 /* -------------- header ----------------- */
 
-a.btn {
-  background-color: #3e3326;
-  border: none;
+#connect {
+  background-image: url("./strava_connect.png");
+  background-size: 193px 48px;
+  display: block;
+  width: 193px;
+  height: 48px;
   margin: 1em 0;
+  text-indent: -5000px;
 }
 
-a.btn:hover {
-  background-color: #a6a6a6;
+#connect:hover {
+  opacity: 0.8;
 }
 
 header p {
@@ -47,6 +51,10 @@ header {
   display: flex;
   align-items: center;
   text-align: center;
+}
+
+header h3 {
+  font-family: "Open Sans", sans-serif;
 }
 
 header p {

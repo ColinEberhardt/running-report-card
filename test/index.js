@@ -1,0 +1,18 @@
+const fs = require("fs");
+const workerFarm = require("worker-farm");
+const workers = workerFarm(require.resolve("./generate"));
+
+let queue = 0;
+fs.readdir("./static", (_, files) => {
+  files.forEach(file => {
+    if (file.endsWith("json")) {
+      queue++;
+      workers(file, () => {
+        queue--;
+        if (queue === 0) {
+          workerFarm.end(workers);
+        }
+      });
+    }
+  });
+});

@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Strava Report Card - {{ Colin }} {{ Eberhardt }}</title>
+    <title>Running Report Card - {{ Colin }} {{ Eberhardt }}</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -81,7 +81,8 @@
         <img src="{{ profile_pic }}" />
         <h1>{{ Colin }}<br />{{ Eberhardt }}</h1>
         <div class="sep"></div>
-        <h2>Strava Report Card</h2>
+        <h2>Running Report Card</h2>
+        <h3>Powered by Strava</h3>
         <p class="col-8 col-lg-4">
           {{ Colin }} is {{ a_high_mileage }} runner who you're most likely to
           find hitting the roads on a {{ weekend }}.
@@ -206,9 +207,9 @@
       <section class="row">
         <div class="col-md-6">
           <p>
-            You'll find {{ Colin }} snapping the occasional picture
-            while on a run. Here are a few of the {{ photo_count}} photo's {{he}}'s
-            taken this year:
+            You'll find {{ Colin }} snapping the occasional picture while on a
+            run. Here are a few of the {{ photo_count}} photo's {{he}}'s taken
+            this year:
           </p>
         </div>
         <div class="col-md-6 no-bottom-border"></div>
@@ -227,11 +228,21 @@
         <div class="col-md-6"></div>
         <div class="col-md-6">
           <p>
-            If you had fun reading this, why not generate your own <a href="index.html">Strava Report Card</a>?
+            If you had fun reading this, why not generate your own
+            <a href="index.html">Strava Report Card</a>?
           </p>
         </div>
       </section>
-      <footer class="row">Brought to you by Colin Eberhardt</footer>
+      <footer class="row">
+        <div class="col-md-8">
+          Brought to you by Colin Eberhardt. To provide feedback, thoughts or
+          ideas - head over to
+          <a href="https://github.com/ColinEberhardt/strava-report-card"
+            >GitHub</a
+          >
+        </div>
+        <div class="col-md-4"><img style="width: 169px; height: 33px; float: right;" src="./strava_logo.png" /></div>
+      </footer>
     </div>
     <script type="text/javascript">
       const calendarData = JSON.parse(
@@ -274,7 +285,9 @@
               return "#DD7B7B";
           }
           return d.runs > 0 ? "#d9d9d9" : "transparent";
-        });
+        })
+        .append("title")
+        .text(d => d.titles.join(", "));
 
       d3.select("#calendar")
         .selectAll("text")

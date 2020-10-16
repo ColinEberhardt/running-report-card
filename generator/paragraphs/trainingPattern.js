@@ -117,8 +117,8 @@ module.exports = stravaData => {
 
   const timeOfDayPhrase = switcher(
     {
-      nightime: "a <b>nighttime runner</b>, heading in the moonlight",
-      morning: "a <b>morning runner</b>, heading as the sun starts to rise",
+      nightime: "a <b>nighttime runner</b>, heading out in the moonlight",
+      morning: "a <b>morning runner</b>, heading out as the sun starts to rise",
       midday: "a <b>midday runner</b>, heading out when the sun is at its peak",
       evening:
         "an <b>evening runner</b>, heading out when the sun is starting to set"

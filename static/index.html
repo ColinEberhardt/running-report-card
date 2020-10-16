@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Strava Report Card</title>
+    <title>Running Report Card</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -19,18 +19,19 @@
   <body>
     <div class="container">
       <header class="row">
-        <h1>Strava Report Card</h1>
+        <h1>Running Report Card</h1>
+        <h3>Powered by Strava</h3>
         <p class="col-10 col-lg-8">
-          Welcome to the Stava Report Card - to obtain your own personal report,
-          click the link below to authorize with Strava
+          Welcome to the Running Report Card - to obtain your own personal report,
+          click the link below to authorize with Strava:
         </p>
         <div class="sep"></div>
-        <a class="btn btn-primary btn-lg" id="submit" role="button"
-          >Create my report!</a
+        <a id="connect" role="button"
+          >Connect to Strava</a
         >
         <div class="sep"></div>
         <p class="col-10 col-lg-8">
-          The Strava Report Card uses your Strava run data to create a
+          The Running Report Card uses your Strava run data to create a
           personalised report of your running habits. Why not take a look at an
           <a href="8725202.html">example report</a>?. Concepts and code by
           <a href="https://twitter.com/ColinEberhardt">Colin Eberhardt</a>.
@@ -55,7 +56,7 @@
         .join("&");
 
       const url = "https://www.strava.com/oauth/authorize?" + query;
-      document.getElementById("submit").setAttribute("href", url);
+      document.getElementById("connect").setAttribute("href", url);
     </script>
   </body>
 </html>

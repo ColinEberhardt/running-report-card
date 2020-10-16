@@ -1,6 +1,8 @@
+const numberToText = require("number-to-text");
+require('number-to-text/converters/en-us');
+
 const { sum } = require("d3-array");
 const { format } = require("d3-format");
-
 const { streakLength, roundToDay } = require("./util/util");
 
 const last = arr => arr[arr.length - 1];
@@ -72,9 +74,11 @@ module.exports = stravaData => {
     HEIGHT_DATA.find(({ height }) => totalClimb / height > 2) ||
     last(HEIGHT_DATA);
 
-  const heightText = `climbing ${height.text} ${(
-    totalClimb / height.height
-  ).toFixed(0)} times ${height.postscript}`;
+  const climbMultiple = (totalClimb / height.height).toFixed(0);
+
+  const heightText = `climbing ${height.text} ${numberToText.convertToText(
+    climbMultiple
+  ).toLowerCase()} times ${height.postscript}`;
 
   const totalHours = sum(
     yearOfRunningData,
