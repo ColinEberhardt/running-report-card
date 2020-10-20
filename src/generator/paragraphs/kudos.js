@@ -6,6 +6,7 @@ module.exports = stravaData => {
     thirteen: Math.floor(mean(stravaData.runs, d => d.kudos_count)),
     north_tyneside_ten: popularRun.name,
     north_tyneside_ten_id: popularRun.id,
-    forty: popularRun.kudos_count
+    forty: popularRun.kudos_count,
+    followers: stravaData.athlete.follower_count
   };
 };

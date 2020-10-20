@@ -19,6 +19,17 @@
     />
     <link href="style.css" rel="stylesheet" />
     <script src="https://d3js.org/d3.v6.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
   </head>
 
   <body>
@@ -175,10 +186,9 @@
         <div class="col-md-6"></div>
         <div class="col-md-6">
           <p>
-            Longer runs in <b class="color-contrast">blue</b>, and
-            speedier sessions in <b class="color-black">black</b>, and all the
-            other miles plodding the streets in
-            <b class="color-brand">orange</b>.
+            Longer runs in <b class="color-contrast">blue</b>, and speedier
+            sessions in <b class="color-black">black</b>, and all the other
+            miles plodding the streets in <b class="color-brand">orange</b>.
           </p>
         </div>
       </section>
@@ -186,8 +196,8 @@
         <div class="col-md-6">
           <p>
             {{ Colin }}'s runs receive an average of {{ thirteen }} kudos from
-            {{ his }} friends and followers, {{ his }} stand-out run for the
-            year was
+            {{ his }} {{ followers}} friends and followers. {{ caps his }}
+            stand-out run for the year was
             <a
               href="https://www.strava.com/activities/{{ north_tyneside_ten_id }}"
               >{{ north_tyneside_ten }}</a
@@ -199,6 +209,22 @@
           <svg class="icon" viewBox="0 0 100 125" style="height: 200px">
             <use xlink:href="#connections"></use>
           </svg>
+        </div>
+      </section>
+      <section class="row">
+        <div class="col-md-6">
+          <div id="map" data-locations="{{all_locations}}"></div>
+        </div>
+        <div class="col-md-6">
+          <p>
+            You're most likely to find {{ Colin }} running around
+            {{most_frequent_location}}, which is where {{ he }} spends {{
+            most_frequent_location_frequency }}% of {{ his }} time running.
+            However {{ he }}'s also been spotted running in
+            {{other_locations_one}} and {{other_locations_two}}. There are also
+            rumoured sightings of {{ Colin }} in the more far-flung location of
+            {{furthest_location}}.
+          </p>
         </div>
       </section>
       {{#if gallery.length}}
@@ -239,8 +265,27 @@
             >GitHub</a
           >
         </div>
-        <div class="col-md-4"><img style="width: 169px; height: 33px; float: right;" src="./strava_logo.png" /></div>
+        <div class="col-md-4">
+          <img
+            style="width: 169px; height: 33px; float: right"
+            src="./strava_logo.png"
+          />
+        </div>
       </footer>
+      <section class="row">
+        <div class="col-md-8 attribution">
+          <p>
+            <b>Attributions:</b> Map data &copy;
+            <a href="https://www.openstreetmap.org/">OpenStreetMap</a>
+            contributors,
+            <a href="https://creativecommons.org/licenses/by-sa/2.0/"
+              >CC-BY-SA</a
+            >
+            Imagery &copy;
+             <a href="https://www.mapbox.com/">Mapbox</a>.
+          </p>
+        </div>
+      </section>
     </div>
     <script type="text/javascript">
       const calendarData = JSON.parse(
@@ -335,6 +380,91 @@
         .append("path")
         .classed("indicator", true)
         .attr("d", arc2);
+
+      const locationData = JSON.parse(
+        document.getElementById("map").getAttribute("data-locations")
+      );
+
+      L.TileLayer.Grayscale = L.TileLayer.extend({
+        initialize: function (url, options) {
+          options.crossOrigin = true;
+          L.TileLayer.prototype.initialize.call(this, url, options);
+          this.on("tileload", function (e) {
+            this._makeGrayscale(e.tile);
+          });
+        },
+
+        _createTile: function () {
+          const tile = L.TileLayer.prototype._createTile.call(this);
+          tile.crossOrigin = "Anonymous";
+          return tile;
+        },
+
+        _makeGrayscale: function (img) {
+          if (img.getAttribute("data-grayscaled")) return;
+
+          img.crossOrigin = "";
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+
+          const imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const pix = imgd.data;
+          for (var i = 0, n = pix.length; i < n; i += 4) {
+            if (pix[i] < 25) {
+              pix[i] = pix[i + 1] = pix[i + 2] = 255;
+            } else {
+              pix[i] = 0xf8;
+              pix[i + 1] = 0xb1;
+              pix[i + 2] = 0x00;
+            }
+          }
+          ctx.putImageData(imgd, 0, 0);
+          img.setAttribute("data-grayscaled", true);
+          img.src = canvas.toDataURL();
+        }
+      });
+
+      L.tileLayer.grayscale = function (url, options) {
+        return new L.TileLayer.Grayscale(url, options);
+      };
+
+      const map = L.map("map", {
+        zoomControl: false,
+        attributionControl: false,
+        trackResize: false,
+        boxZoom: false,
+        doubleClickZoom: false,
+        dragging: false,
+        scrollWheelZoom: false
+      });
+
+      L.tileLayer
+        .grayscale(
+          "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw",
+          {
+            id: "mapbox/satellite-v9",
+            tileSize: 512,
+            zoomOffset: -1
+          }
+        )
+        .addTo(map);
+
+      const dotIcon = L.icon({
+        iconUrl: "dot.png",
+        iconSize: [8, 8]
+      });
+
+      const group = new L.featureGroup(
+        locationData.map(l => L.marker(l, { icon: dotIcon }))
+      ).addTo(map);
+      map.fitBounds(group.getBounds());
+
+      if (map.getZoom() > 6) {
+        map.setZoom(6);
+      }
     </script>
   </body>
 </html>

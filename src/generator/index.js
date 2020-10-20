@@ -8,11 +8,12 @@ const oneLiner = require("./paragraphs/oneLiner");
 const schedule = require("./paragraphs/schedule");
 const timeOfDay = require("./paragraphs/timeOfDay");
 const kudos = require("./paragraphs/kudos");
+const location = require("./paragraphs/location");
 const gallery = require("./paragraphs/gallery");
 
 const METRES_TO_MILES = 0.000621371;
 
-module.exports = stravaData => {
+module.exports = async stravaData => {
   // perform some simple data transformations and enrichment
   stravaData.runs.forEach(d => {
     d.startDate = DateTime.fromISO(d.start_date_local);
@@ -40,8 +41,6 @@ module.exports = stravaData => {
       ? "https://d3nn82uaxijpm6.cloudfront.net/assets/avatar/athlete/large.png"
       : stravaData.athlete.profile;
 
-  
-
   // generate the various report snippets
   const reportData = {
     Colin: stravaData.athlete.firstname.trim(),
@@ -55,7 +54,8 @@ module.exports = stravaData => {
     annual_schedule: JSON.stringify(schedule(stravaData)),
     time_of_day: JSON.stringify(timeOfDay(stravaData)),
     ...kudos(stravaData),
-    ...gallery(stravaData)
+    ...gallery(stravaData),
+    ...location(stravaData)
   };
 
   Handlebars.registerHelper(
@@ -63,7 +63,7 @@ module.exports = stravaData => {
     text => text.charAt(0).toUpperCase() + text.slice(1)
   );
 
-  const report = String(fs.readFileSync("./generator/report.html"));
+  const report = String(fs.readFileSync("./src/generator/report.html"));
   const template = Handlebars.compile(report);
   return template(reportData);
 };

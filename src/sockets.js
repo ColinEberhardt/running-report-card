@@ -1,7 +1,8 @@
 const AWS = require("aws-sdk");
 const fs = require("fs");
-const reportGenerator = require("../generator/index");
+const reportGenerator = require("./generator/index");
 const requestResponse = require("request-promise");
+const geocode = require("./geocode");
 const {
   athleteRequest,
   activitiesRequest,
@@ -76,28 +77,27 @@ const writeFile = async (event, filename, data) => {
 const filterActivity = activity => 
   !isMoreThanOneYearAgo(new Date(activity.start_date)) && activity.type === "Run";
 
-
 module.exports.msgHandler = async (event, context) => {
   const authCode = JSON.parse(event.body).authCode;
+
+  const updateStatus = status => sendMessage(event, { status });
 
   // use the supplied aurhorisation code to obtain an access code
   // https://developers.strava.com/docs/authentication/
   const body = await httpRequest(authTokenRequest(authCode));
   if (body.error) {
     console.error(body);
-    await sendMessage(event, { status: "Problem accessing Strava data :-(" });
+    await updateStatus("Problem accessing Strava data :-(");
     return {
       statusCode: 500
     };
   }
   const accessToken = body.access_token;
-  await sendMessage(event, { status: "Connected to Strava ...." });
+  await updateStatus("Connected to Strava ....");
 
   // download the athlete data
   const athlete = await httpRequest(athleteRequest(accessToken));
-  await sendMessage(event, {
-    status: "Athlete data downloaded ..."
-  });
+  await updateStatus("Athlete data downloaded ...");
 
   const athleteData = {
     runs: [],
@@ -116,17 +116,14 @@ module.exports.msgHandler = async (event, context) => {
       activities.filter(filterActivity)
     );
     lastRunDate = new Date(last(activities).start_date);
-    await sendMessage(event, {
-      status: `Data for ${athleteData.runs.length} runs downloaded ...`
-    });
+    await updateStatus(`Data for ${athleteData.runs.length} runs downloaded ...`);
     await wait(1000);
   } while (!isMoreThanOneYearAgo(lastRunDate));
 
-  await sendMessage(event, {
-    status: `Fetching additional run data ...`
-  });
+  
 
-  // download 6 runs that contain photis
+  // download 6 runs that contain photos
+  await updateStatus(`Fetching additional run data ...`);
   const runsWithPhotos = athleteData.runs
     .filter(r => r.total_photo_count > 0)
     .sort(() => 0.5 - Math.random())
@@ -135,14 +132,16 @@ module.exports.msgHandler = async (event, context) => {
     const activity = await httpRequest(
       activityRequest(runsWithPhotos[i].id, accessToken)
     );
+    // replace the existing activity with the more detailed one
     const idx = athleteData.runs.findIndex(r => r.id === runsWithPhotos[i].id);
     athleteData.runs[idx] = activity;
     await wait(1000);
   }
 
-  await sendMessage(event, {
-    status: `Generating the report ...`
-  });
+  // download 
+  await updateStatus(`Grabbing location data  ...`);
+  const locations = await geocode(athleteData);
+  athleteData.locations = locations;
 
   // save the raw data to S3
   await writeFile(
@@ -152,9 +151,11 @@ module.exports.msgHandler = async (event, context) => {
   );
 
   // generate the report
-  const report = reportGenerator(athleteData);
+  await updateStatus(`Generating the report ...`);
+  const report = await reportGenerator(athleteData);
   await writeFile(event, `${athleteData.athlete.id}.html`, report);
 
+  // redirect the client
   const isOffline = event.requestContext.domainName === "localhost";
   const reportUrl = isOffline
     ? `http://localhost:8080/${athleteData.athlete.id}.html`

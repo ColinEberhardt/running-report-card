@@ -53,6 +53,7 @@
         if (data.message && data.message === "Internal server error") {
           document.getElementById("status").innerText =
             "An error occurred when generating your report, please try again later.";
+          console.error(data);
         }
       };
     </script>

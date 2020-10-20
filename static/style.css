@@ -104,12 +104,12 @@ section div {
   align-items: center;
 }
 
-section div > * {
+section > div > * {
   padding: 1em;
 }
 
 @media screen and (min-width: 768px) {
-  section div > * {
+  section > div > * {
     padding: 3em;
   }
 }
@@ -280,4 +280,18 @@ footer {
   .gallery img {
     height: 150px;
   }
+}
+
+/* -------- */
+
+#map {
+  height: 180px;
+  width: 400px;
+  padding: 0;
+}
+
+/* ---------- */
+
+.attribution {
+  font-size: 12px;
 }
