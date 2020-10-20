@@ -21,11 +21,11 @@ npm run deploy
 ### features to add
 - [x] run streak
 - [x] active days
-- [ ] geoclustering to provide location commemntary
+- [x] geoclustering to provide location commemntary
 - [x] longest run
 - [x] total distance comparison
 - [ ] fastest and slowest runs?
-- [ ] add tooltips to the calendar view
+- [x] add tooltips to the calendar view
 
 ### infrastructure
 - [x] conform to strava branding guidelines https://developers.strava.com/guidelines/

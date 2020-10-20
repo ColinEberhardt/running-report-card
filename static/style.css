@@ -292,6 +292,12 @@ footer {
 
 /* ---------- */
 
-.attribution {
+section > div.attribution > * {
   font-size: 12px;
+  padding: 0;
+}
+
+section > div.attribution::before,
+section > div.attribution::after {
+  border: none;
 }
