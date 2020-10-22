@@ -29,10 +29,11 @@ npm run deploy
 
 ### infrastructure
 - [x] conform to strava branding guidelines https://developers.strava.com/guidelines/
-- [ ] make index.html default page 
+- [x] make index.html default page 
 - [ ] start using SASS?
 - [ ] stop using the bootstrap 'full' build
 - [ ] add a social card
+- [ ] remove hard-coding of bucket name
 
 
 ### Design ideas ...
