@@ -13,7 +13,6 @@ const { wait, isMoreThanOneYearAgo, last } = require("./util");
 
 AWS.config.setPromisesDependency(Promise);
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
-const S3_BUCKET = "strava-report-card";
 
 const httpRequest = async config => {
   console.log("HTTP request", config);
@@ -63,7 +62,7 @@ const writeFile = async (event, filename, data) => {
     await s3
       .putObject({
         Body: data,
-        Bucket: S3_BUCKET,
+        Bucket: process.env.S3_BUCKET,
         Key: filename,
         ACL: "public-read",
         ContentType: filename.endsWith("json")
@@ -159,7 +158,7 @@ module.exports.msgHandler = async (event, context) => {
   const isOffline = event.requestContext.domainName === "localhost";
   const reportUrl = isOffline
     ? `http://localhost:8080/${athleteData.athlete.id}.html`
-    : `https://strava-report-card.s3.eu-west-2.amazonaws.com/${athleteData.athlete.id}.html`;
+    : `https://run-report.com/${athleteData.athlete.id}.html`;
   await sendMessage(event, {
     status: "report generated",
     reportUrl

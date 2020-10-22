@@ -12,7 +12,7 @@ provider:
       Action:
         - s3:PutObject
         - s3:PutObjectAcl
-      Resource: "arn:aws:s3:::strava-report-card/*"
+      Resource: "arn:aws:s3:::run-report.com/*"
 
 functions:
   connectHandler:
@@ -36,7 +36,7 @@ custom:
   assets:
     verbose: true
     targets:
-      - bucket: strava-report-card
+      - bucket: run-report.com
         acl: public-read
         files:
         - source: static/

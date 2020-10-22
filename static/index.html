@@ -2,6 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>Running Report Card</title>
     <link
       rel="stylesheet"
@@ -42,7 +46,7 @@
       const isDev = ["localhost", "127.0.0.1"].includes(location.hostname);
       const redirectUrl = isDev
         ? "http://127.0.0.1:8080"
-        : "https://strava-report-card.s3.eu-west-2.amazonaws.com";
+        : "https://run-report.com";
 
       const params = {
         client_id: 15760,

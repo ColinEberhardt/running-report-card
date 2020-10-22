@@ -1,9 +1,9 @@
 const fs = require("fs").promises;
 const reportGenerator = require("../src/generator/index");
-const { DateTime, Interval } = require("luxon");
-const geocode = require("../src/geocode")
+// const { DateTime, Interval } = require("luxon");
+// const geocode = require("../src/geocode")
 
-module.exports = async function (file, callback) {
+module.exports = async (file, callback) => {
   const filename = `./static/${file}`;
   console.log(`reading data ${filename}`);
   const data = await fs.readFile(filename, "utf8");
