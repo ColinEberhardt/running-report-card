@@ -263,9 +263,11 @@
             You're most likely to find {{ Colin }} hitting the road in
             {{most_frequent_location}}, which is where {{ he }} spends {{
             most_frequent_location_frequency }}% of {{ his }} time running.
-            However {{ he }}'s also been spotted in {{other_locations_one}} and
-            {{other_locations_two}}. There are also rumoured sightings of {{
-            Colin }} in the more far-flung location of {{furthest_location}}.
+            {{#if other_locations_one}}{{#if other_locations_two}} However {{ he
+            }}'s also been spotted in {{other_locations_one}} and
+            {{other_locations_two}}. {{/if}}{{/if}} {{#if furthest_location}} There are
+            also rumoured sightings of {{ Colin }} in the more far-flung
+            location of {{furthest_location}}. {{/if}}
           </p>
         </div>
       </section>
