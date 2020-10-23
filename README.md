@@ -32,7 +32,7 @@ npm run deploy
 - [x] make index.html default page 
 - [ ] start using SASS?
 - [ ] stop using the bootstrap 'full' build
-- [ ] add a social card
+- [x] add a social card
 - [ ] remove hard-coding of bucket name
 
 
