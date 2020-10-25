@@ -73,8 +73,9 @@ const writeFile = async (event, filename, data) => {
   }
 };
 
-const filterActivity = activity => 
-  !isMoreThanOneYearAgo(new Date(activity.start_date)) && activity.type === "Run";
+const filterActivity = activity =>
+  !isMoreThanOneYearAgo(new Date(activity.start_date)) &&
+  activity.type === "Run";
 
 module.exports.msgHandler = async (event, context) => {
   const authCode = JSON.parse(event.body).authCode;
@@ -105,8 +106,8 @@ module.exports.msgHandler = async (event, context) => {
   };
 
   // download at least one years worth of running data
-  let lastRunDate,
-    page = 1;
+  let page = 1,
+    breakLoop = false;
   do {
     const activities = await httpRequest(
       activitiesRequest(page++, accessToken)
@@ -114,12 +115,14 @@ module.exports.msgHandler = async (event, context) => {
     athleteData.runs = athleteData.runs.concat(
       activities.filter(filterActivity)
     );
-    lastRunDate = new Date(last(activities).start_date);
-    await updateStatus(`Data for ${athleteData.runs.length} runs downloaded ...`);
+    breakLoop =
+      activities.length === 0 ||
+      isMoreThanOneYearAgo(new Date(last(activities).start_date));
+    await updateStatus(
+      `Data for ${athleteData.runs.length} runs downloaded ...`
+    );
     await wait(1000);
-  } while (!isMoreThanOneYearAgo(lastRunDate));
-
-  
+  } while (!breakLoop);
 
   // download 6 runs that contain photos
   await updateStatus(`Fetching additional run data ...`);
@@ -137,7 +140,7 @@ module.exports.msgHandler = async (event, context) => {
     await wait(1000);
   }
 
-  // download 
+  // download
   await updateStatus(`Grabbing location data  ...`);
   const locations = await geocode(athleteData);
   athleteData.locations = locations;

@@ -40,7 +40,7 @@ custom:
         acl: public-read
         files:
         - source: static/
-          globs: '!([0-9]*.*)'
+          globs: '*.*'
 
 plugins:
   - serverless-offline
