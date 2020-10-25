@@ -22,7 +22,10 @@
     <meta itemprop="image" content="https://run-report.com/social.png" />
     <!-- Twitter -->
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="{{ Colin }} {{ Eberhardt }} - Running Report Card" />
+    <meta
+      name="twitter:title"
+      content="{{ Colin }} {{ Eberhardt }} - Running Report Card"
+    />
     <meta
       name="twitter:description"
       content="{{ Colin }} is {{ a_high_mileage }} runner who you're most likely to find hitting the roads on a {{ weekend }}."
@@ -34,14 +37,20 @@
       content="https://run-report.com/social.png"
     />
     <!-- Open Graph general (Facebook, Pinterest & Google+) -->
-    <meta name="og:title" content="{{ Colin }} {{ Eberhardt }} - Running Report Card" />
+    <meta
+      name="og:title"
+      content="{{ Colin }} {{ Eberhardt }} - Running Report Card"
+    />
     <meta
       name="og:description"
       content="{{ Colin }} is {{ a_high_mileage }} runner who you're most likely to find hitting the roads on a {{ weekend }}."
     />
     <meta name="og:image" content="https://run-report.com/social.png" />
     <meta name="og:url" content="https://run-report.com" />
-    <meta name="og:site_name" content="{{ Colin }} {{ Eberhardt }} - Running Report Card" />
+    <meta
+      name="og:site_name"
+      content="{{ Colin }} {{ Eberhardt }} - Running Report Card"
+    />
     <meta name="og:type" content="website" />
 
     <meta charset="utf-8" />
@@ -265,9 +274,9 @@
             most_frequent_location_frequency }}% of {{ his }} time running.
             {{#if other_locations_one}}{{#if other_locations_two}} However {{ he
             }}'s also been spotted in {{other_locations_one}} and
-            {{other_locations_two}}. {{/if}}{{/if}} {{#if furthest_location}} There are
-            also rumoured sightings of {{ Colin }} in the more far-flung
-            location of {{furthest_location}}. {{/if}}
+            {{other_locations_two}}. {{/if}}{{/if}} {{#if furthest_location}}
+            There are also rumoured sightings of {{ Colin }} in the more
+            far-flung location of {{furthest_location}}. {{/if}}
           </p>
         </div>
       </section>
@@ -295,19 +304,51 @@
       <section class="row">
         <div class="col-md-6"></div>
         <div class="col-md-6">
-          <p>
-            If you had fun reading this, why not generate your own
-            <a href="index.html">Strava Report Card</a>?
-          </p>
+          <div>
+            <p>
+              If you had fun reading this, why not share on social media or
+              generate your own
+              <a href="index.html">Strava Report Card</a>?
+            </p>
+
+            <ul class="share-buttons" data-source="simplesharingbuttons.com">
+              <li>
+                <a
+                  href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Frun-report.com%2F{{ id }}.html&quote={{ encoded_title }}"
+                  title="Share on Facebook"
+                  target="_blank"
+                  ><img alt="Share on Facebook" src="Facebook.png"
+                /></a>
+              </li>
+              <li>
+                <a
+                  href="https://twitter.com/intent/tweet?source=https%3A%2F%2Frun-report.com%2F{{ id }}.html&text={{ encoded_title }}:%20https%3A%2F%2Frun-report.com%2F8725202.html"
+                  target="_blank"
+                  title="Tweet"
+                  ><img alt="Tweet" src="Twitter.png"
+                /></a>
+              </li>
+              <li>
+                <a
+                  href="http://www.reddit.com/submit?url=https%3A%2F%2Frun-report.com%2F{{ id }}.html&title={{ encoded_title }}"
+                  target="_blank"
+                  title="Submit to Reddit"
+                  ><img alt="Submit to Reddit" src="Reddit.png"
+                /></a>
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
       <footer class="row">
         <div class="col-md-8">
-          Brought to you by Colin Eberhardt. To provide feedback, thoughts or
-          ideas - head over to
-          <a href="https://github.com/ColinEberhardt/strava-report-card"
-            >GitHub</a
-          >
+          <p>
+            Brought to you by Colin Eberhardt. To provide feedback, thoughts or
+            ideas - head over to
+            <a href="https://github.com/ColinEberhardt/strava-report-card"
+              >GitHub</a
+            >
+          </p>
         </div>
         <div class="col-md-4">
           <img

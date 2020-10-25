@@ -43,6 +43,10 @@ module.exports = async stravaData => {
 
   // generate the various report snippets
   const reportData = {
+    id: stravaData.athlete.id,
+    encoded_title: encodeURI(
+      `A running report card for ${stravaData.athlete.firstname.trim()} ${stravaData.athlete.lastname.trim()}`
+    ),
     Colin: stravaData.athlete.firstname.trim(),
     Eberhardt: stravaData.athlete.lastname.trim(),
     his: stravaData.athlete.thirdPersonPossessivePronoun,
