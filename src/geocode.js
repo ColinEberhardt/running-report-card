@@ -57,6 +57,10 @@ const findClusters = (coordinates, bias = 0.001, depth = 0) => {
 module.exports = async stravaData => {
   const coordinates = stravaData.runs.map(r => r.start_latlng).filter(r => r);
 
+  if (coordinates.length === 0) {
+    return [];
+  }
+
   // cluster by location, with the number of runs per cluster
   // this should produce approx 10 clusters
   let clusters = findClusters(coordinates)

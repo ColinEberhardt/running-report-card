@@ -1,6 +1,10 @@
 const { last } = require("../../util");
 
 module.exports = stravaData => { 
+  if (stravaData.locations.length === 0) {
+    return {};
+  }
+
   // grab the location data
   let locationProperties = stravaData.locations
     .filter(l => l.geocoded)

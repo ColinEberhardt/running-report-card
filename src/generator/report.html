@@ -263,6 +263,7 @@
           </svg>
         </div>
       </section>
+      {{#if most_frequent_location}}
       <section class="row">
         <div class="col-md-6">
           <div id="map" data-locations="{{all_locations}}"></div>
@@ -280,6 +281,7 @@
           </p>
         </div>
       </section>
+      {{/if}}
       {{#if gallery.length}}
       <section class="row">
         <div class="col-md-6">
