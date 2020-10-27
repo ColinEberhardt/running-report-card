@@ -124,6 +124,13 @@ module.exports.msgHandler = async (event, context) => {
     await wait(1000);
   } while (!breakLoop);
 
+  if (athleteData.runs.length === 0) {
+    await updateStatus(
+      `We could not find any runs in your Strava profile, either they are private, or you haven't recorded any yet!`
+    );
+    return { statusCode: 200, body: "Data sent." };
+  }
+
   // download 6 runs that contain photos
   await updateStatus(`Fetching additional run data ...`);
   const runsWithPhotos = athleteData.runs
@@ -146,6 +153,7 @@ module.exports.msgHandler = async (event, context) => {
   athleteData.locations = locations;
 
   // save the raw data to S3
+  console.log(`Saving report data ${athleteData.athlete.id}.json`);
   await writeFile(
     event,
     `${athleteData.athlete.id}.json`,
