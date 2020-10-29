@@ -43,27 +43,33 @@
 
       const urlParams = new URLSearchParams(window.location.search);
       const authCode = urlParams.get("code");
+      const error = urlParams.get("error");
 
-      const ws = new WebSocket(generalUrl);
+      if (error === "access_denied") {
+        document.getElementById("status").innerText =
+          "You have not granted access to your Strava data, so your report cannot be generated!";
+      } else {
+        const ws = new WebSocket(generalUrl);
 
-      ws.onopen = event => {
-        ws.send(JSON.stringify({ authCode: authCode }));
-      };
+        ws.onopen = event => {
+          ws.send(JSON.stringify({ authCode: authCode }));
+        };
 
-      ws.onmessage = event => {
-        const data = JSON.parse(event.data);
-        if (data.status) {
-          document.getElementById("status").innerText = data.status;
-        }
-        if (data.reportUrl) {
-          window.location.replace(data.reportUrl);
-        }
-        if (data.message && data.message === "Internal server error") {
-          document.getElementById("status").innerText =
-            "An error occurred when generating your report, please try again later.";
-          console.error(data);
-        }
-      };
+        ws.onmessage = event => {
+          const data = JSON.parse(event.data);
+          if (data.status) {
+            document.getElementById("status").innerText = data.status;
+          }
+          if (data.reportUrl) {
+            window.location.replace(data.reportUrl);
+          }
+          if (data.message && data.message === "Internal server error") {
+            document.getElementById("status").innerText =
+              "An error occurred when generating your report, please try again later.";
+            console.error(data);
+          }
+        };
+      }
     </script>
   </body>
 </html>

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "serverless offline & live-server --no-browser static",
     "test": "node test",
-    "deploy": "serverless deploy && serverless s3deploy"
+    "deploy": "serverless deploy && serverless s3deploy",
+    "deploy:lambda": "serverless deploy"
   },
   "dependencies": {
     "aws-sdk": "^2.478.0",
