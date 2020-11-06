@@ -1,11 +1,11 @@
 const { last } = require("../../util");
 
-module.exports = stravaData => { 
+module.exports = stravaData => {
   if (stravaData.locations.length === 0) {
     return {};
   }
 
-  // grab the location data
+  // grab the geocoded location data
   let locationProperties = stravaData.locations
     .filter(l => l.geocoded)
     .map(l => l.geocoded.features[0].properties)
@@ -16,6 +16,7 @@ module.exports = stravaData => {
 
   locationProperties.forEach((r, i) => {
     if (i === 0) return;
+    // if we have duplicate names, use the suburb property
     if (
       locationProperties.filter(d => d.name === r.name).length > 1 &&
       r.properties.suburb
@@ -24,17 +25,23 @@ module.exports = stravaData => {
     }
   });
 
-  const locations = locationProperties.map(l => l.name);
+  // extract the unique names
+  const locations = Array.from(new Set(locationProperties.map(l => l.name)));
 
   return {
     most_frequent_location: locations[0],
-    other_locations_one: locations[1],
-    other_locations_two: locations[2],
-    furthest_location: last(locations),
+    ...(locations.length > 3 && {
+      other_locations_one: locations[1],
+      other_locations_two: locations[2]
+    }),
+    ...(locations.length > 1 && {
+      furthest_location: last(locations)
+    }),
+    single_location: locations.length === 1,
     most_frequent_location_frequency: (
       (stravaData.locations[0].runs * 100) /
       stravaData.runs.length
     ).toFixed(0),
     all_locations: JSON.stringify(stravaData.locations.map(l => l.location))
-  }
-}
+  };
+};

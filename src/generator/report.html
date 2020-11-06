@@ -270,14 +270,24 @@
         </div>
         <div class="col-md-6">
           <p>
-            You're most likely to find {{ Colin }} hitting the road in
-            {{most_frequent_location}}, which is where {{ he }} spends {{
-            most_frequent_location_frequency }}% of {{ his }} time running.
-            {{#if other_locations_one}}{{#if other_locations_two}} However {{ he
-            }}'s also been spotted in {{other_locations_one}} and
-            {{other_locations_two}}. {{/if}}{{/if}} {{#if furthest_location}}
-            There are also rumoured sightings of {{ Colin }} in the more
-            far-flung location of {{furthest_location}}. {{/if}}
+            {{#if single_location }}
+              You're most likely to find {{ Colin }} hitting the road in
+              {{most_frequent_location}}, which is where {{ he }} spends pretty much 
+              all of {{ his }} time running.
+            {{else}}
+              You're most likely to find {{ Colin }} hitting the road in
+              {{most_frequent_location}}, which is where {{ he }} spends {{
+              most_frequent_location_frequency }}% of {{ his }} time running.
+            {{/if}}
+
+            {{#if other_locations_one}}{{#if other_locations_two}}
+              However {{ he }}'s also been spotted in {{other_locations_one}} and {{other_locations_two}}.
+            {{/if}}{{/if}}
+
+            {{#if furthest_location}}
+              There are also rumoured sightings of {{ Colin }} in the more
+              far-flung location of {{furthest_location}}.
+            {{/if}}
           </p>
         </div>
       </section>
@@ -396,8 +406,10 @@
       );
       const cellSize = 10;
 
+      const firstDay = new Date(calendarData[0].day).getDay();
+
       const transX = (d, i) =>
-        520 - Math.floor(i / 7) * cellSize + cellSize / 2;
+        510 - Math.floor((i - firstDay) / 7) * cellSize + cellSize / 2;
       const transY = (d, i) =>
         new Date(d.day).getDay() * cellSize + cellSize / 2;
 
