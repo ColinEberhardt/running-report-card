@@ -1,5 +1,5 @@
 const numberToText = require("number-to-text");
-require('number-to-text/converters/en-us');
+require("number-to-text/converters/en-us");
 
 const { sum } = require("d3-array");
 const { format } = require("d3-format");
@@ -11,6 +11,7 @@ const formatInteger = format(",.0f");
 const SECONDS_TO_HOURS = 1 / (60 * 60);
 const MILES_ROUND_GLOBE = 24901;
 const METRES_TO_FEET = 3.28084;
+const MILES_TO_KILOMETRES = 1.60934;
 
 const HEIGHT_DATA = [
   {
@@ -51,6 +52,7 @@ const HEIGHT_DATA = [
 ];
 
 module.exports = stravaData => {
+  const useImperial = stravaData.athlete.measurement_preference === "feet";
   const yearOfRunningData = stravaData.runs;
   const profile = stravaData.athlete;
 
@@ -77,9 +79,9 @@ module.exports = stravaData => {
 
   const climbMultiple = (totalClimb / height.height).toFixed(0);
 
-  const heightText = `climbing ${height.text} ${numberToText.convertToText(
-    climbMultiple
-  ).toLowerCase()} times ${height.postscript}`;
+  const heightText = `climbing ${height.text} ${numberToText
+    .convertToText(climbMultiple)
+    .toLowerCase()} times ${height.postscript}`;
 
   const totalHours = sum(
     yearOfRunningData,
@@ -94,10 +96,16 @@ module.exports = stravaData => {
 
   return {
     two_hundred: yearOfRunningData.length,
-    one_hundred: formatInteger(totalMiles),
+    one_hundred_miles:
+      formatInteger(totalMiles * (useImperial ? 1 : MILES_TO_KILOMETRES)) +
+      " " +
+      (useImperial ? "miles" : "kilometres"),
     fifty: formatInteger(totalHours),
     a_running_addict: classification,
-    three_thousand: formatInteger(totalClimb * METRES_TO_FEET),
+    three_thousand_feet:
+      formatInteger(totalClimb * (useImperial ? METRES_TO_FEET : 1)) +
+      " " +
+      (useImperial ? "feet" : "metres"),
     climbing_everest: heightText,
     longest_streak: longestStreak + 1,
     round_world_years: formatInteger(MILES_ROUND_GLOBE / totalMiles)
