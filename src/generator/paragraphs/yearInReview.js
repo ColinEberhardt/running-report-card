@@ -10,6 +10,7 @@ const last = arr => arr[arr.length - 1];
 const formatInteger = format(",.0f");
 const SECONDS_TO_HOURS = 1 / (60 * 60);
 const MILES_ROUND_GLOBE = 24901;
+const METRES_TO_FEET = 3.28084;
 
 const HEIGHT_DATA = [
   {
@@ -96,7 +97,7 @@ module.exports = stravaData => {
     one_hundred: formatInteger(totalMiles),
     fifty: formatInteger(totalHours),
     a_running_addict: classification,
-    three_thousand: formatInteger(totalClimb),
+    three_thousand: formatInteger(totalClimb * METRES_TO_FEET),
     climbing_everest: heightText,
     longest_streak: longestStreak + 1,
     round_world_years: formatInteger(MILES_ROUND_GLOBE / totalMiles)
