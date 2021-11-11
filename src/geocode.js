@@ -4,7 +4,7 @@ const requestResponse = require("request-promise");
 
 const { last } = require("./util");
 
-const httpRequest = async config => {
+const httpRequest = async (config) => {
   console.log("HTTP request", config);
   let result;
   result = await requestResponse(config);
@@ -22,11 +22,11 @@ const httpRequest = async config => {
 //     }x
 //   });
 
-const reverseGeocodeGeoApify = coord =>
+const reverseGeocodeGeoApify = (coord) =>
   httpRequest({
     method: "GET",
     uri: `https://api.geoapify.com/v1/geocode/reverse?lat=${coord[0]}&lon=${coord[1]}&apiKey=${process.env.GEOAPIFY_KEY}`,
-    json: true
+    json: true,
   });
 
 const geoDistance = (a, b) =>
@@ -35,9 +35,9 @@ const geoDistance = (a, b) =>
     { latitude: b[0], longitude: b[1] }
   );
 
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const geocodePlaces = async places => {
+const geocodePlaces = async (places) => {
   const names = [];
   for (let i = 0; i < places.length; i++) {
     places[i].geocoded = await reverseGeocodeGeoApify(places[i].location);
@@ -54,36 +54,45 @@ const findClusters = (coordinates, bias = 0.001, depth = 0) => {
   return clusters;
 };
 
-module.exports = async stravaData => {
-  const coordinates = stravaData.runs.map(r => r.start_latlng).filter(r => r);
+module.exports = async (stravaData) => {
+  try {
+    const coordinates = stravaData.runs
+      .map((r) => r.start_latlng)
+      .filter((r) => r)
+      .filter((r) => r.length === 2);
 
-  if (coordinates.length === 0) {
-    return [];
+    if (coordinates.length === 0) {
+      return [];
+    }
+
+    // cluster by location, with the number of runs per cluster
+    // this should produce approx 10 clusters
+    console.log(coordinates);
+
+    let clusters = findClusters(coordinates)
+      .map((c) => ({
+        location: c.centroid,
+        runs: c.elements.length,
+      }))
+      .sort((a, b) => b.runs - a.runs);
+
+    // compute distance from most popular
+    clusters.forEach((c, i) => {
+      c.distance = i === 0 ? 0 : geoDistance(c.location, clusters[0].location);
+    });
+    clusters.sort((a, b) => a.distance - b.distance);
+
+    // pick 4 places to reverse geocode
+    const places = [
+      clusters[0],
+      ...clusters.slice(1, -1).slice(-2),
+      last(clusters),
+    ];
+
+    await geocodePlaces(places);
+
+    return clusters;
+  } catch (e) {
+    console.error(e);
   }
-
-  // cluster by location, with the number of runs per cluster
-  // this should produce approx 10 clusters
-  let clusters = findClusters(coordinates)
-    .map(c => ({
-      location: c.centroid,
-      runs: c.elements.length
-    }))
-    .sort((a, b) => b.runs - a.runs);
-
-  // compute distance from most popular
-  clusters.forEach((c, i) => {
-    c.distance = i === 0 ? 0 : geoDistance(c.location, clusters[0].location);
-  });
-  clusters.sort((a, b) => a.distance - b.distance);
-
-  // pick 4 places to reverse geocode
-  const places = [
-    clusters[0],
-    ...clusters.slice(1, -1).slice(-2),
-    last(clusters)
-  ];
-
-  await geocodePlaces(places);
-
-  return clusters;
 };
