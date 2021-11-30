@@ -24,8 +24,9 @@
     "serverless-http": "^2.0.2"
   },
   "devDependencies": {
+    "serverless": "^2.67.0",
     "serverless-offline": "^5.3.3",
-    "serverless-s3-deploy": "^0.9.0",
+    "serverless-s3-deploy": "^0.10.1",
     "worker-farm": "^1.7.0"
   }
 }
