@@ -1,0 +1,61 @@
+Create an interesting and engaging narrative for a runner based on their annual running statistics.
+
+name: Jerry
+gender: M
+distance: 1,740 miles
+distance comparison:  run around the world in 14 years
+total runs: 251 
+hours run: 261
+streak: 11
+climb: 9,723 metres
+climb comparison: El Capitan four times
+classification: extreme runner
+narrative: In the last year Jerry has been on an impressive 251 runs, covering a total of 1,740 miles over 261 non-stop hours. His longest running streak is 11 days, that's a lot of consecutive days hitting the road (or trail). If he keeps clocking up this mileage he'll have run round the world in 14 years, we think that's an achievable goal. We'd classify jerry as an extreme runner, clocking up an eye-watering number of miles. During these runs he has climbed 9,723 metres, that's the equivalent of climbing El Capitan four times (but a bit less steep).
+
+name: Julie
+gender: F
+distance: 180 miles
+distance comparison: the length of the UK in 3 years
+total runs: 54
+hours run: 86
+streak: 2
+climb: 2,316 metres
+climb comparison: Snowdon two times
+classification: recreational runner
+narrative: In the last year Julie has been on a very respectable 54 runs, covering a total of 180 miles over 86 hours. Her longest running streak is just 2 days, c'mon julie, you don't need those rest days! If she keeps clocking up this mileage she'll have run the length of the UK in three years, that's pretty good going, start booking those B&Bs. We'd classify julie as a dedicated recreational runner, clocking up a decent mileage. During these runs she has climbed 2,316 metres, that's the equivalent of climbing Snowdon two times (but a bit less cold)
+
+name: Ed
+gender: M
+distance: 434 miles
+distance comparison: the width of the USA in 7 years
+total runs: 128 runs
+hours run: 85
+streak: 4 
+climb: 3,916 metres
+climb comparison: climbing Snowdon four times
+classification: serious runner
+narrative: In the last year Ed has been on a very respectable 54 runs, covering a total of 434 miles over 85 hours. His longest running streak is 4 days, run-sleep-eat-repeat! If he keeps clocking up this mileage he'll have run the width of the USA in seven years, sounds like a fun challenge. We'd classify Ed as a serious runner, I bet he keeps a close eye on his achievements. During these runs he has climbed 3,916 metres, that's the equivalent of climbing Snowdon four times (without catching the train).
+
+name: Sara
+gender: F
+distance: 311 miles
+distance comparison: the length of the UK in three years
+total runs: 79 runs
+hours run: 73
+streak: 3 
+climb: 3,786 metres
+climb comparison: climbing Snowdon three times
+classification: recreational runner
+narrative: We've looked at the data and can see that Sara has pulled on her trainers 79 times this year, clocking up 73 hours of total running time and covering a distance of 311 miles. If she keeps this up she'll have the length of the UK in three years, that sounds like an achievable goal. Based on our assessment, Sara is a recreational runner, she's not letting it take over her whole life! During these runs she has climbed 3,786 metres, that's the equivalent of climbing Snowdon three times, worth it for the view.
+
+name: {{ name }}
+gender: {{ gender }}
+distance: {{ totalMiles }}
+distance comparison:  {{ totalMilesComparison }}
+total runs: {{ totalRuns }}
+hours run: {{ totalHoursRun }}
+streak: {{ longestStreak }}
+climb: {{ totalClimb }}
+climb comparison: {{ totalClimbComparison }}
+classification: {{ runnerClassification }}
+narrative:
