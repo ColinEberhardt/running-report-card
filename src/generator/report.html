@@ -408,8 +408,8 @@
       );
 
       const size = d3
-        .scaleLinear()
-        .range([0, cellSize / 1.5])
+        .scaleSqrt()
+        .range([0, cellSize / 2])
         .domain([0, maxDistance]);
 
       d3.select("#calendar")
