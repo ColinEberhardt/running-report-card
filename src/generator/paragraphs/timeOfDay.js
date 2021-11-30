@@ -4,7 +4,7 @@ const timeOfDayVectorGenerator = data =>
   bucket(
     data,
     d => d.distance,
-    d => d.startDate.hour - 1,
+    d => d.startDate.toUTC().hour,
     24
   );
 

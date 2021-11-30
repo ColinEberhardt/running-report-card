@@ -1,113 +1,105 @@
+const fs = require("fs");
 const numberToText = require("number-to-text");
 require("number-to-text/converters/en-us");
-
+const Handlebars = require("handlebars");
 const { sum } = require("d3-array");
 const { format } = require("d3-format");
-const { streakLength, roundToDay } = require("./util/util");
-
-const last = arr => arr[arr.length - 1];
+const { streakLength, roundToDay, matchClosest } = require("./util/util");
+const narrativeGenerator = require("./narrativeGenerator");
 
 const formatInteger = format(",.0f");
 const SECONDS_TO_HOURS = 1 / (60 * 60);
-const MILES_ROUND_GLOBE = 24901;
 const METRES_TO_FEET = 3.28084;
 const MILES_TO_KILOMETRES = 1.60934;
 
-const HEIGHT_DATA = [
-  {
-    text: "Mount Everest",
-    height: 8848,
-    postscript: "(but probably with a bit less snow)"
-  },
-  {
-    text: "Mount Kilimanjaro",
-    height: 5895,
-    postscript: "(but without the risk of volcanic activity)"
-  },
-  {
-    text: "El Capitan",
-    height: 2308,
-    postscript: "(but a bit less steep)"
-  },
-  {
-    text: "Snowdon",
-    height: 1100,
-    postscript: "(but a bit less wet and windy)"
-  },
-  {
-    text: "Empire State Building",
-    height: 600,
-    postscript: "(but without taking the lift)"
-  },
-  {
-    text: "Eiffel Tower",
-    height: 324,
-    postscript: "(but without taking the lift)"
-  },
-  {
-    text: "The Great Pyramid of Giza",
-    height: 146,
-    postscript: "(but probably far less hot)"
-  }
+// distances in miles
+const DISTANCE_DATA = [
+  ["round the World", 24901],
+  ["length of the Great Wall of China", 13170],
+  ["length of the Russia", 5600],
+  ["length of the Amazon River", 4000],
+  ["width of America", 2800],
+  ["width of Australia", 2500],
+  ["length of the UK", 874],
+  ["length of the Italy", 620],
 ];
 
-module.exports = stravaData => {
+// heights in metres
+const HEIGHT_DATA = [
+  ["Mount Everest", 8848],
+  ["Mount Kilimanjaro", 5895],
+  ["El Capitan", 2308],
+  ["Snowdon", 1100],
+  ["Empire State Building", 600],
+  ["Eiffel Tower", 324],
+  ["The Great Pyramid of Giza", 146],
+];
+
+// runs in miles
+const CLASSIFICATION_DATA = [
+  ["extreme runner", 2000],
+  ["running addict", 1500],
+  ["serious runner", 600],
+  ["recreational runner", 300],
+  ["occasional runner", 0],
+];
+
+module.exports = async (stravaData) => {
   const useImperial = stravaData.athlete.measurement_preference === "feet";
   const yearOfRunningData = stravaData.runs;
-  const profile = stravaData.athlete;
+  const totalRuns = yearOfRunningData.length;
 
-  const totalMiles = sum(yearOfRunningData, d => d.distance);
-  const classification = (() => {
-    if (totalMiles >= 100 && totalMiles < 300) {
-      return "a <b>recreational runner</b>, having clocked up a modest mileage in the last twelve months";
-    } else if (totalMiles >= 300 && totalMiles < 700) {
-      return "a <b>serious runner</b>, covering a decent mileage in a year";
-    } else if (totalMiles >= 700 && totalMiles < 1500) {
-      return "a <b>running addict</b>, clocking up a significant mileage over the year";
-    } else if (totalMiles >= 1500) {
-      return "an <b>extreme runner</b>, clocking up an eye-watering number of miles";
-    } else {
-      return "an <b>occasional runner</b>, clocking up a handful of miles each week";
-    }
-  })();
+  const name = stravaData.athlete.firstname.trim();
 
-  const totalClimb = sum(yearOfRunningData, d => d.total_elevation_gain);
+  const totalMiles = sum(yearOfRunningData, (d) => d.distance);
+  const totalMilesFormatted = `${formatInteger(Math.floor(totalMiles))} miles`;
+  const totalMilesMatch = matchClosest(DISTANCE_DATA, totalMiles * 4);
+  const totalMilesComparison = `${totalMilesMatch[0]} in ${numberToText
+    .convertToText((totalMilesMatch[1] / totalMiles).toFixed(0))
+    .toLowerCase()} years`;
 
-  const height =
-    HEIGHT_DATA.find(({ height }) => totalClimb / height > 2) ||
-    last(HEIGHT_DATA);
+  const totalClimb = sum(yearOfRunningData, (d) => d.total_elevation_gain);
+  const totalClimbFormatted = `${formatInteger(Math.floor(totalClimb))} feet`;
 
-  const climbMultiple = (totalClimb / height.height).toFixed(0);
+  const runnerClassification = matchClosest(CLASSIFICATION_DATA, totalMiles)[0];
 
-  const heightText = `climbing ${height.text} ${numberToText
-    .convertToText(climbMultiple)
-    .toLowerCase()} times ${height.postscript}`;
+  const heightComparison = matchClosest(HEIGHT_DATA, totalClimb / 2);
+  const totalClimbComparison = `climbing ${heightComparison[0]} ${numberToText
+    .convertToText((totalClimb / heightComparison[1]).toFixed(0))
+    .toLowerCase()} times`;
 
-  const totalHours = sum(
-    yearOfRunningData,
-    d => d.elapsed_time * SECONDS_TO_HOURS
+  const totalHoursRun = Math.floor(
+    sum(yearOfRunningData, (d) => d.elapsed_time * SECONDS_TO_HOURS)
   );
 
-  const runningDays = yearOfRunningData.map(s => roundToDay(s.startDate).ts);
-  const longestStreak = streakLength(
-    runningDays,
-    (prev, curr) => prev - curr === 86400000
+  const runningDays = yearOfRunningData.map((s) => roundToDay(s.startDate).ts);
+  const longestStreak =
+    streakLength(runningDays, (prev, curr) => prev - curr === 86400000) + 1;
+
+  const templateText = String(
+    fs.readFileSync("./src/generator/paragraphs/prompts/yearInReview.txt")
   );
+  const template = Handlebars.compile(templateText);
+  prompt = template({
+    name,
+    gender: stravaData.athlete.sex,
+    totalMiles: totalMilesFormatted,
+    totalMilesComparison,
+    totalRuns,
+    totalHoursRun,
+    longestStreak,
+    totalClimb: totalClimbFormatted,
+    totalClimbComparison,
+    runnerClassification,
+  });
+  const yearInReviewNarrative = await narrativeGenerator(prompt);
 
   return {
-    two_hundred: yearOfRunningData.length,
-    one_hundred_miles:
-      formatInteger(totalMiles * (useImperial ? 1 : MILES_TO_KILOMETRES)) +
-      " " +
-      (useImperial ? "miles" : "kilometres"),
-    fifty: formatInteger(totalHours),
-    a_running_addict: classification,
-    three_thousand_feet:
-      formatInteger(totalClimb * (useImperial ? METRES_TO_FEET : 1)) +
-      " " +
-      (useImperial ? "feet" : "metres"),
-    climbing_everest: heightText,
-    longest_streak: longestStreak + 1,
-    round_world_years: formatInteger(MILES_ROUND_GLOBE / totalMiles)
+    totalRuns,
+    longestStreak,
+    runnerClassification,
+    totalMiles: totalMilesFormatted,
+    totalClimb: totalClimbFormatted,
+    yearInReviewNarrative,
   };
 };

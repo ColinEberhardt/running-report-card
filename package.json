@@ -18,6 +18,7 @@
     "handlebars": "^4.7.6",
     "luxon": "^1.16.0",
     "number-to-text": "^0.3.8",
+    "openai-api": "^1.2.6",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "serverless-http": "^2.0.2"

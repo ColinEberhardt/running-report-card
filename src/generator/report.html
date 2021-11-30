@@ -28,7 +28,7 @@
     />
     <meta
       name="twitter:description"
-      content="{{ Colin }} is {{ a_high_mileage }} runner who you're most likely to find hitting the roads on a {{ weekend }}."
+      content="{{ Colin }} is {{ runnerClassification }} runner who you're most likely to find hitting the roads on a {{ weekend }}."
     />
     <meta name="twitter:site" content="ColinEberhardt" />
     <meta name="twitter:creator" content="ColinEberhardt" />
@@ -43,7 +43,7 @@
     />
     <meta
       name="og:description"
-      content="{{ Colin }} is {{ a_high_mileage }} runner who you're most likely to find hitting the roads on a {{ weekend }}."
+      content="{{ Colin }} is {{ runnerClassification }} runner who you're most likely to find hitting the roads on a {{ weekend }}."
     />
     <meta name="og:image" content="https://run-report.com/social.png" />
     <meta name="og:url" content="https://run-report.com" />
@@ -143,20 +143,16 @@
         <h1>{{ Colin }}<br />{{ Eberhardt }}</h1>
         <div class="sep"></div>
         <h2>Running Report Card</h2>
-        <h3>Powered by Strava</h3>
+        <h3>An AI-generated report, powered by Strava and GPT3</h3>
         <p class="col-8 col-lg-4">
-          {{ Colin }} is {{ a_high_mileage }} runner who you're most likely to
-          find hitting the roads on a {{ weekend }}.
+          {{ Colin }} is a {{ runnerClassification }} who you're most likely to
+          find hitting the roads on a {{ mostlyRunsOn }}.
         </p>
       </header>
       <section class="row">
         <div class="col-md-6">
           <p>
-            We are creatures of habit, runners more so than most! You're most
-            likely to find {{ Colin }} pulling on {{ his }} trainers and hitting
-            the road (or trail) on a {{ weekend }}. {{ caps he }} tends to go
-            for long runs on a {{ monday }} and works out on a {{ tuesday }}.
-            Also, {{ Colin }} is {{{ a_nighttime_runner }}}.
+            {{ trainingPatternNarrative }}
           </p>
         </div>
         <div class="col-md-6">
@@ -180,38 +176,31 @@
               <svg class="icon" viewBox="0 -10 100 125">
                 <use xlink:href="#distance"></use>
               </svg>
-              <span>{{ one_hundred_miles }}</span>
+              <span>{{ totalMiles }}</span>
             </li>
             <li>
               <svg class="icon" viewBox="0 0 100 125">
                 <use xlink:href="#runner"></use>
               </svg>
-              <span>{{ two_hundred }} runs</span>
+              <span>{{ totalRuns }} runs</span>
             </li>
             <li>
               <svg class="icon" viewBox="0 0 512 640">
                 <use xlink:href="#time"></use>
               </svg>
-              <span>{{ longest_streak }} day streak</span>
+              <span>{{ longestStreak }} day streak</span>
             </li>
             <li>
               <svg class="icon" viewBox="0 0 100 118">
                 <use xlink:href="#mountain"></use>
               </svg>
-              <span>{{ three_thousand_feet }}</span>
+              <span>{{ totalClimb }}</span>
             </li>
           </ul>
         </div>
         <div class="col-md-6">
           <p>
-            In the last year {{ Colin }} has been on {{ two_hundred }} runs,
-            covering a total of {{ one_hundred_miles }} over {{ fifty }} hours,
-            with a longest running streak of {{ longest_streak }} days. If {{ he
-            }} keeps clocking up this mileage {{ he }}'ll have run round the
-            world in {{ round_world_years }} years. We'd classify {{ Colin }} as
-            {{{ a_running_addict }}}. During these runs {{ he }} has climbed {{
-            three_thousand_feet }}, that's the equivalent of {{
-            climbing_everest }}
+            {{ yearInReviewNarrative }}
           </p>
         </div>
       </section>
@@ -395,7 +384,7 @@
             and Sam for
             <a href="https://thenounproject.com/search/?q=test&i=3535632"
               >Time</a
-            >.
+            >. AI-generated narrative using GPT3 from <a href="https://openai.com/">OpenAI</a>.
           </p>
         </div>
       </section>
@@ -470,8 +459,8 @@
         .arc()
         .innerRadius(25)
         .outerRadius(d => 25 + d * 70 + 1)
-        .startAngle((_, i) => (i + 0.5) * SEGMENT_RADIUS + SEGMENT_OFFSET)
-        .endAngle((_, i) => (i + 1.5) * SEGMENT_RADIUS + SEGMENT_OFFSET);
+        .startAngle((_, i) => (i - 0.5) * SEGMENT_RADIUS + SEGMENT_OFFSET)
+        .endAngle((_, i) => (i + 0.5) * SEGMENT_RADIUS + SEGMENT_OFFSET);
 
       d3.select("#timeOfDay")
         .selectAll("path.time")

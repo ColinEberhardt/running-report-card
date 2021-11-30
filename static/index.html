@@ -67,11 +67,12 @@
     <div class="container">
       <header class="row">
         <h1>Running Report Card</h1>
-        <h3>Powered by Strava</h3>
+        <h3>An AI-generated report, powered by Strava and GPT3</h3>
         <p class="col-10 col-lg-8">
           Welcome to the Running Report Card, a fun, insightful and beautiful
-          report generated from your Strava running data - to obtain your own
-          personal report, click the link below to authorize with Strava:
+          AI-generated report based on your personal Strava running data - to
+          obtain your own personal report, click the link below to authorize
+          with Strava:
         </p>
         <div class="sep"></div>
         <a id="connect" role="button">Connect to Strava</a>
@@ -79,8 +80,12 @@
         <p class="col-10 col-lg-8">
           The Running Report Card uses your Strava run data to create a
           personalised report of your running habits. Why not take a look at an
-          <a href="8725202.html">example report</a>?. Concepts and code by
-          <a href="https://twitter.com/ColinEberhardt">Colin Eberhardt</a>.
+          <a href="8725202.html">example report</a>?. Concept by
+          <a href="https://twitter.com/ColinEberhardt">Colin Eberhardt</a>, and
+          code is all
+          <a href="https://github.com/ColinEberhardt/running-report-card"
+            >open source on GitHub</a
+          >.
         </p>
       </header>
     </div>
@@ -94,11 +99,11 @@
         client_id: 15760,
         redirect_uri: redirectUrl + "/generate.html",
         response_type: "code",
-        scope: "activity:read,activity:read_all,profile:read_all"
+        scope: "activity:read,activity:read_all,profile:read_all",
       };
 
       const query = Object.keys(params)
-        .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+        .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
         .join("&");
 
       const url = "https://www.strava.com/oauth/authorize?" + query;

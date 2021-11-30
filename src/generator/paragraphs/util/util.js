@@ -3,7 +3,7 @@ const { DateTime } = require("luxon");
 
 module.exports.switcher = (obj, value) => {
   let rtn;
-  Object.keys(obj).forEach(key => {
+  Object.keys(obj).forEach((key) => {
     if (key === "default") {
       rtn = obj[key](value);
     }
@@ -19,11 +19,11 @@ module.exports.switcher = (obj, value) => {
 // bucketFn - a function that determines the bucket for a given element
 // max - the total number of buckets
 module.exports.bucket = (data, valueFn, bucketFn, max) => {
-  const roll = rollup(data, d => sum(d, valueFn), bucketFn);
-  return range(0, max).map(i => roll.get(i) || 0);
+  const roll = rollup(data, (d) => sum(d, valueFn), bucketFn);
+  return range(0, max).map((i) => roll.get(i) || 0);
 };
 
-module.exports.capitalizeFirstLetter = string =>
+module.exports.capitalizeFirstLetter = (string) =>
   string.charAt(0).toUpperCase() + string.slice(1);
 
 module.exports.streakLength = (data, isEqual) => {
@@ -43,5 +43,12 @@ module.exports.streakLength = (data, isEqual) => {
   return longestStreak;
 };
 
-module.exports.roundToDay = d =>
+module.exports.roundToDay = (d) =>
   DateTime.utc(d.year, d.month, d.day, 0, 0, 0, 0);
+
+module.exports.last = (arr) => arr[arr.length - 1];
+
+module.exports.capitalise = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+module.exports.matchClosest = (types, value) =>
+  types.find(([, val]) => value > val) || last(types);
