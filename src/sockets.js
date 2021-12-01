@@ -53,10 +53,32 @@ const sendMessage = async (event, message) => {
     .promise();
 };
 
-const writeFile = async (event, filename, data) => {
-  const isOffline = event.requestContext.domainName === "localhost";
+const isOffline = event => event.requestContext.domainName === "localhost";
 
-  if (isOffline) {
+const fileExists = async (event, filename) => {
+  if (isOffline(event)) {
+    return fs.existsSync(`./static/${filename}`);
+  } else {
+    return await s3
+      .headObject({
+        Bucket: process.env.S3_BUCKET,
+        Key: filename
+      })
+      .promise()
+      .then(
+        () => true,
+        err => {
+          if (err.code === 'NotFound') {
+            return false;
+          }
+          throw err;
+        }
+      );
+  }
+}
+
+const writeFile = async (event, filename, data) => {
+  if (isOffline(event)) {
     fs.writeFileSync(`./static/${filename}`, data);
   } else {
     await s3
@@ -98,6 +120,19 @@ module.exports.msgHandler = async (event, context) => {
   // download the athlete data
   const athlete = await httpRequest(athleteRequest(accessToken));
   await updateStatus("Athlete data downloaded ...");
+
+  const reportUrl = isOffline(event)
+    ? `http://localhost:8080/${athlete.id}.html`
+    : `https://run-report.com/${athlete.id}.html`;
+
+  // check if we have a report already
+  // const filename = `${athlete.id}.html`;
+  // if (fileExists(event, filename)) {
+  //   await sendMessage(event, {
+  //     status: "report generated",
+  //     reportUrl
+  //   });
+  // }
 
   const athleteData = {
     runs: [],
@@ -166,10 +201,6 @@ module.exports.msgHandler = async (event, context) => {
   await writeFile(event, `${athleteData.athlete.id}.html`, report);
 
   // redirect the client
-  const isOffline = event.requestContext.domainName === "localhost";
-  const reportUrl = isOffline
-    ? `http://localhost:8080/${athleteData.athlete.id}.html`
-    : `https://run-report.com/${athleteData.athlete.id}.html`;
   await sendMessage(event, {
     status: "report generated",
     reportUrl
