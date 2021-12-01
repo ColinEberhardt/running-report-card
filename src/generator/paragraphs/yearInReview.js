@@ -9,7 +9,7 @@ const narrativeGenerator = require("./narrativeGenerator");
 
 const formatInteger = format(",.0f");
 const SECONDS_TO_HOURS = 1 / (60 * 60);
-const METRES_TO_FEET = 3.28084;
+const FEET_TO_METRES = 1 / 3.28084;
 const MILES_TO_KILOMETRES = 1.60934;
 
 // distances in miles
@@ -46,20 +46,25 @@ const CLASSIFICATION_DATA = [
 
 module.exports = async (stravaData) => {
   const useImperial = stravaData.athlete.measurement_preference === "feet";
+
   const yearOfRunningData = stravaData.runs;
   const totalRuns = yearOfRunningData.length;
 
   const name = stravaData.athlete.firstname.trim();
 
   const totalMiles = sum(yearOfRunningData, (d) => d.distance);
-  const totalMilesFormatted = `${formatInteger(Math.floor(totalMiles))} miles`;
+  const totalMilesFormatted = useImperial
+    ? `${formatInteger(Math.floor(totalMiles))} miles`
+    : `${formatInteger(Math.floor(totalMiles * MILES_TO_KILOMETRES))} km`;
   const totalMilesMatch = matchClosest(DISTANCE_DATA, totalMiles * 4);
   const totalMilesComparison = `${totalMilesMatch[0]} in ${numberToText
     .convertToText((totalMilesMatch[1] / totalMiles).toFixed(0))
     .toLowerCase()} years`;
 
   const totalClimb = sum(yearOfRunningData, (d) => d.total_elevation_gain);
-  const totalClimbFormatted = `${formatInteger(Math.floor(totalClimb))} feet`;
+  const totalClimbFormatted = useImperial
+    ? `${formatInteger(Math.floor(totalClimb))} feet`
+    : `${formatInteger(Math.floor(totalClimb * FEET_TO_METRES))} metres`;
 
   const runnerClassification = matchClosest(CLASSIFICATION_DATA, totalMiles)[0];
 
