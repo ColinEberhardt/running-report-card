@@ -6,7 +6,7 @@ long runs: Thursday or Monday
 workouts: Sunday or Monday
 time of day: morning
 mostly runs on: weekday
-narrative: We are creatures of habit, runners more so than most! You're most likely to find Colin pulling on his trainers and hitting the road (or trail) on a weekday.  Colin is a morning runner, heading out as the sun starts to rise  and when the roads are nice and quiet. We've analysed the data, and he tends to go for long runs on a Thursday or a Monday and works out on a Sunday or a Monday.
+narrative: We are creatures of habit, runners more so than most! You're most likely to find Colin pulling on his trainers and hitting the road (or trail) on a weekday.  Colin is a morning runner, heading out as the sun starts to rise  and when the roads are nice and quiet. We've analysed the data, and he tends to go for long runs on a Thursday or sometimes a Monday and works out on a Sundays and Mondays.
 
 name: Julie
 gender: F
@@ -14,7 +14,7 @@ long runs: Monday
 workouts: Monday or Thursday
 time of day: morning
 mostly runs on: weekday
-narrative: Runners tend to live their life on a loop. You're most likely to find Julie pulling leaving the house and hitting the road on a weekday. Taking a closer look, she tends to go for long runs on a Monday and works out on a Monday or a Thursday. Also, Julie is a morning runner, heading out when the day has just begun, giving her that satisfied feeling of starting the day right.
+narrative: Runners tend to live their life on a loop. You're most likely to find Julie pulling leaving the house and hitting the road on a weekday. Taking a closer look, she tends to go for long runs on a Monday and works out on a Monday, or perhaps Thursday. Also, Julie is a morning runner, heading out when the day has just begun, giving her that satisfied feeling of starting the day right.
 
 name: Jerry
 gender: M
@@ -25,12 +25,12 @@ mostly runs on: Thursday
 narrative: Jerry likes to keep his running on schedule, you're most likely to find him working up a sweat on a Thursday. Jerry is an evening runner, heading out as the sun starts to set, perhaps he likes to keep his runs secret? Delving into the details, Saturday seems to be his long-run day, and Wednesday is when he picks the pace up a bit, there might be a few rest days squeezed in as well. Perhaps.
 
 name: Phil
-gender: M
+gender: unknown
 long runs: weekends
 workouts: Tuesday
 time of day: midday
 mostly runs on: weekdays
-narrative: We've analysed the data and can see that Phil is a predictable soul! Most of his runs are on the weekdays, at midday, perhaps a sneaky lunch-break runner? Back to work full of adrenaline. He tends to work out on a Tuesday and goes for the all-important long runs on the weekends. If Phil keeps up this schedule, I'm sure he'll achieve his goals.
+narrative: We've analysed the data and can see that Phil is a predictable soul! Most of their runs are on the weekdays, at midday, perhaps a sneaky lunch-break runner? Back to work full of adrenaline. They tends to work out on a Tuesday and go for the all-important long runs on the weekends. If Phil keeps up this schedule, I'm sure they'll achieve his goals.
 
 name: Adam
 gender: M
@@ -54,7 +54,15 @@ long runs: Thursday or Saturday
 workouts: Tuesday or Thursday
 time of day: morning
 mostly runs on: weekdays
-narrative: Sara mostly runs on the weekdays, keeping her weekends free for more important activities no doubt. She tends to be a morning running, always a good way to start the day. Looking into the details, she tends to go for long runs on a Thursday or a Saturday, and works out on a Tuesday or a Thursday.
+narrative: Sara mostly runs on the weekdays, keeping her weekends free for more important activities no doubt. She tends to be a morning running, always a good way to start the day. Looking into the details, she tends to go for long runs on a Thursday or a Saturday, and works out on a Tuesday or sometimes Thursday.
+
+name: Sam
+gender: unknown
+long runs: Sunday or Saturday
+workouts: Sunday or Monday
+time of day: nighttime
+mostly runs on: Sunday
+narrative: We've had a look at Sam's data and we've learnt a lot. You're most likely to find Sam heading out of the house on a Sunday. Sam is a nightime runner, heading out as the sun sets and darkness falls. Looking at their training patterns we can see that they go for long runs on the weekend and workout on a Sunday and sometimes a Monday.
 
 name: {{name}}
 gender: {{gender}}

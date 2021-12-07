@@ -12,6 +12,16 @@ const SECONDS_TO_HOURS = 1 / (60 * 60);
 const FEET_TO_METRES = 1 / 3.28084;
 const MILES_TO_KILOMETRES = 1.60934;
 
+const genderString = (sex) => {
+  switch (sex) {
+    case "M":
+      return "M";
+    case "F":
+      return "F";
+  }
+  return "unknown";
+};
+
 // distances in miles
 const DISTANCE_DATA = [
   ["round the World", 24901],
@@ -87,7 +97,7 @@ module.exports = async (stravaData) => {
   const template = Handlebars.compile(templateText);
   prompt = template({
     name,
-    gender: stravaData.athlete.sex,
+    gender: genderString(stravaData.athlete.sex),
     totalMiles: totalMilesFormatted,
     totalMilesComparison,
     totalRuns,

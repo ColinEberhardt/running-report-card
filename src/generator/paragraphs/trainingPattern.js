@@ -8,6 +8,16 @@ const { bucket } = require("./util/util");
 const { closestVector } = require("./util/vector");
 const narrativeGenerator = require("./narrativeGenerator");
 
+const genderString = (sex) => {
+  switch (sex) {
+    case "M":
+      return "M";
+    case "F":
+      return "F";
+  }
+  return "unknown";
+};
+
 const WEEKDAYS = [
   "Monday",
   "Tuesday",
@@ -139,7 +149,7 @@ module.exports = async (stravaData) => {
   const template = Handlebars.compile(templateText);
   prompt = template({
     name,
-    gender: stravaData.athlete.sex,
+    gender: genderString(stravaData.athlete.sex),
     longRunDay,
     workoutDay,
     timeOfDay,

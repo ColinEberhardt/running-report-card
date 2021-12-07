@@ -12,6 +12,26 @@ const gallery = require("./paragraphs/gallery");
 
 const METRES_TO_MILES = 0.000621371;
 
+const pronoun = (sex) => {
+  switch (sex) {
+    case "M":
+      return "he";
+    case "F":
+      return "she";
+  }
+  return "they";
+};
+
+const possessivePronoun = (sex) => {
+  switch (sex) {
+    case "M":
+      return "his";
+    case "F":
+      return "her";
+  }
+  return "their";
+};
+
 module.exports = async (stravaData) => {
   try {
     // perform some simple data transformations and enrichment
@@ -20,10 +40,6 @@ module.exports = async (stravaData) => {
       d.distance = d.distance * METRES_TO_MILES;
       d.pace = d.distance / d.elapsed_time;
     });
-    stravaData.athlete.thirdPersonPronoun =
-      stravaData.athlete.sex === "M" ? "he" : "she";
-    stravaData.athlete.thirdPersonPossessivePronoun =
-      stravaData.athlete.sex === "M" ? "his" : "her";
 
     // ensure we only use the past year of data
     const generationTime = DateTime.fromISO(stravaData.generation_time);
@@ -52,8 +68,8 @@ module.exports = async (stravaData) => {
       ),
       Colin: stravaData.athlete.firstname.trim(),
       Eberhardt: stravaData.athlete.lastname.trim(),
-      his: stravaData.athlete.thirdPersonPossessivePronoun,
-      he: stravaData.athlete.thirdPersonPronoun,
+      his: possessivePronoun(stravaData.athlete.sex),
+      he: pronoun(stravaData.athlete.sex),
       profile_pic: profilePic,
       ...trainingPatternData,
       ...yearInReviewData,

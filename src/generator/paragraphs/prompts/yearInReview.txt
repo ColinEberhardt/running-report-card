@@ -48,6 +48,18 @@ climb comparison: climbing Snowdon three times
 classification: recreational runner
 narrative: We've looked at the data and can see that Sara has pulled on her trainers 79 times this year, clocking up 73 hours of total running time and covering a distance of 311 miles. If she keeps this up she'll have the length of the UK in three years, that sounds like an achievable goal. Based on our assessment, Sara is a recreational runner, she's not letting it take over her whole life! During these runs she has climbed 3,786 metres, that's the equivalent of climbing Snowdon three times, worth it for the view.
 
+name: Sara
+gender: unknown
+distance: 211 miles
+distance comparison: the length of the UK in five years
+total runs: 49 runs
+hours run: 43
+streak: 1 
+climb: 2,786 metres
+climb comparison: climbing Snowdon once
+classification: recreational runner
+narrative: We've looked at the data and can see that Sara has pulled on their trainers 49 times this year, clocking up 43 hours of total running time and covering a distance of 211 miles, that's a fairly modest number of miles. If they keep this up they'll have the length of the UK in five years, that's a big commitment. Sara is a recreational runner, they clearly have other things to do with their time! During these runs they has climbed 2,786 metres, that's the equivalent of climbing Snowdon just once, but once is enough!
+
 name: {{ name }}
 gender: {{ gender }}
 distance: {{ totalMiles }}
