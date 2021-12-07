@@ -46,9 +46,10 @@ module.exports.streakLength = (data, isEqual) => {
 module.exports.roundToDay = (d) =>
   DateTime.utc(d.year, d.month, d.day, 0, 0, 0, 0);
 
-module.exports.last = (arr) => arr[arr.length - 1];
+const last = (arr) => arr[arr.length - 1];
+module.exports.last = last;
 
 module.exports.capitalise = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-module.exports.matchClosest = (types, value) =>
+module.exports.matchClosest = (types, value) => 
   types.find(([, val]) => value > val) || last(types);
