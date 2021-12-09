@@ -9,6 +9,7 @@ const narrativeGenerator = require("./narrativeGenerator");
 
 const formatInteger = format(",.0f");
 const SECONDS_TO_HOURS = 1 / (60 * 60);
+const METRES_TO_FEET = 3.28084;
 const FEET_TO_METRES = 1 / 3.28084;
 const MILES_TO_KILOMETRES = 1.60934;
 
@@ -73,8 +74,8 @@ module.exports = async (stravaData) => {
 
   const totalClimb = sum(yearOfRunningData, (d) => d.total_elevation_gain);
   const totalClimbFormatted = useImperial
-    ? `${formatInteger(Math.floor(totalClimb))} feet`
-    : `${formatInteger(Math.floor(totalClimb * FEET_TO_METRES))} metres`;
+    ? `${formatInteger(Math.floor(totalClimb * METRES_TO_FEET))} feet`
+    : `${formatInteger(Math.floor(totalClimb))} metres`;
 
   const runnerClassification = matchClosest(CLASSIFICATION_DATA, totalMiles)[0];
 
