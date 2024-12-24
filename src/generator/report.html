@@ -143,7 +143,7 @@
         <h1>{{ Colin }}<br />{{ Eberhardt }}</h1>
         <div class="sep"></div>
         <h2>Running Report Card</h2>
-        <h3>An AI-generated report, powered by Strava and GPT3</h3>
+        <h3>An AI-generated report, powered by Strava and GPT</h3>
         <p class="col-8 col-lg-4">
           {{ Colin }} is a {{ runnerClassification }} who you're most likely to
           find hitting the roads on a {{ mostlyRunsOn }}.
@@ -489,52 +489,6 @@
         document.getElementById("map").getAttribute("data-locations")
       );
 
-      L.TileLayer.Grayscale = L.TileLayer.extend({
-        initialize: function (url, options) {
-          options.crossOrigin = true;
-          L.TileLayer.prototype.initialize.call(this, url, options);
-          this.on("tileload", function (e) {
-            this._makeGrayscale(e.tile);
-          });
-        },
-
-        _createTile: function () {
-          const tile = L.TileLayer.prototype._createTile.call(this);
-          tile.crossOrigin = "Anonymous";
-          return tile;
-        },
-
-        _makeGrayscale: function (img) {
-          if (img.getAttribute("data-grayscaled")) return;
-
-          img.crossOrigin = "";
-          const canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0);
-
-          const imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const pix = imgd.data;
-          for (var i = 0, n = pix.length; i < n; i += 4) {
-            if (pix[i] < 25) {
-              pix[i] = pix[i + 1] = pix[i + 2] = 255;
-            } else {
-              pix[i] = 0xf8;
-              pix[i + 1] = 0xb1;
-              pix[i + 2] = 0x00;
-            }
-          }
-          ctx.putImageData(imgd, 0, 0);
-          img.setAttribute("data-grayscaled", true);
-          img.src = canvas.toDataURL();
-        }
-      });
-
-      L.tileLayer.grayscale = function (url, options) {
-        return new L.TileLayer.Grayscale(url, options);
-      };
-
       const map = L.map("map", {
         zoomControl: false,
         attributionControl: false,
@@ -545,16 +499,10 @@
         scrollWheelZoom: false
       });
 
-      L.tileLayer
-        .grayscale(
-          "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw",
-          {
-            id: "mapbox/satellite-v9",
-            tileSize: 512,
-            zoomOffset: -1
-          }
-        )
-        .addTo(map);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
 
       const dotIcon = L.icon({
         iconUrl: "dot.png",
