@@ -10,22 +10,23 @@
     "deploy:lambda": "serverless deploy"
   },
   "dependencies": {
-    "aws-sdk": "^2.478.0",
+    "aws-sdk": "^2.1692.0",
     "d3-array": "^2.2.0",
     "d3-format": "^1.3.2",
-    "geocluster": "^0.1.1",
-    "geolib": "^3.3.1",
-    "handlebars": "^4.7.6",
-    "luxon": "^1.16.0",
-    "number-to-text": "^0.3.8",
-    "openai-api": "^1.2.6",
+    "geocluster": "^0.1.3",
+    "geolib": "^3.3.4",
+    "handlebars": "^4.7.8",
+    "js-yaml": "^4.1.0",
+    "luxon": "^3.5.0",
+    "number-to-text": "^0.3.9",
+    "openai-api": "^1.3.1",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "serverless-http": "^2.0.2"
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
-    "serverless": "^2.67.0",
-    "serverless-offline": "^5.3.3",
+    "serverless": "^4.4.18",
+    "serverless-offline": "^14.4.0",
     "serverless-s3-deploy": "^0.10.1",
     "worker-farm": "^1.7.0"
   }
