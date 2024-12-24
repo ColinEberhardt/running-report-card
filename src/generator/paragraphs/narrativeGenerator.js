@@ -14,7 +14,7 @@ module.exports = async (prompt) => {
   );
 
   const gptResponse = await openai.complete({
-    engine: "davinci",
+    engine: "gpt-3.5-turbo-instruct",
     prompt,
     maxTokens: 280,
     temperature: 0.8,
